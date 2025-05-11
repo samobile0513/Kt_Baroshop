@@ -297,7 +297,7 @@ const InternetSurvey = ({
               <div className="w-full max-w-[819px] h-[100vh] bg-white rounded-[30px] border-4 border-red-500 overflow-y-auto relative flex flex-col">
                 {/* ⬆️ 상단 sticky 제목 */}
                 <div className="sticky top-0 bg-white p-6 border-b z-10">
-                  <h2 className="text-[25px] font-bold text-[#000000] text-center">이용 약관</h2>
+                  <h2 className="text-[25px] font-bold text-[#000000] text-center">이용 약관&gt;</h2>
                 </div>
 
                 {/* 본문 텍스트 */}
@@ -333,7 +333,7 @@ const InternetSurvey = ({
               <div className="w-full max-w-[819px] h-[100vh] bg-white rounded-[30px] border-4 border-red-500 overflow-y-auto relative flex flex-col">
                 {/* ⬆️ 상단 sticky 제목 */}
                 <div className="sticky top-0 bg-white p-6 border-b z-10">
-                  <h2 className="text-[25px] font-bold text-[#000000] text-center">개인정보 처리방침</h2>
+                  <h2 className="text-[25px] font-bold text-[#000000] text-center">개인정보 처리방침&gt;</h2>
                 </div>
 
                 {/* 본문 텍스트 */}
@@ -369,7 +369,7 @@ const InternetSurvey = ({
               <div className="w-full max-w-[819px] h-[100vh] bg-white rounded-[30px] border-4 border-red-500 overflow-y-auto relative flex flex-col">
                 {/* ⬆️ 상단 sticky 제목 */}
                 <div className="sticky top-0 bg-white p-6 border-b z-10">
-                  <h2 className="text-[25px] font-bold text-[#000000] text-center">마케팅 정보 수신 동의</h2>
+                  <h2 className="text-[25px] font-bold text-[#000000] text-center">마케팅 정보 수신 동의&gt;</h2>
                 </div>
 
                 {/* 본문 텍스트 */}
@@ -405,7 +405,7 @@ const InternetSurvey = ({
               <div className="w-full max-w-[819px] h-[100vh] bg-white rounded-[30px] border-4 border-red-500 overflow-y-auto relative flex flex-col">
                 {/* ⬆️ 상단 sticky 제목 */}
                 <div className="sticky top-0 bg-white p-6 border-b z-10">
-                  <h2 className="text-[25px] font-bold text-[#000000] text-center">개인정보 수집및 이용 및 <br />제3자 동의서</h2>
+                  <h2 className="text-[25px] font-bold text-[#000000] text-center">개인정보 수집및 이용 및 <br />제3자 동의서&gt;</h2>
                 </div>
 
                 {/* 본문 텍스트 */}

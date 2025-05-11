@@ -264,7 +264,7 @@ const MobilePhoneSurvey = ({
                     onClick={() => setIsPopupOpenInfo1(true)}
                     className="cursor-pointer text-black text-[50px]"
                   >
-                    서비스 이용약관 <span className="text-[48px]">(필수)</span>
+                    서비스 이용약관&gt; <span className="text-[48px]">(필수)</span>
                   </span>
                 </div>
                 <div className="flex items-center gap-4">
@@ -279,7 +279,7 @@ const MobilePhoneSurvey = ({
                     onClick={() => setIsPopupOpenInfo2(true)}
                     className="cursor-pointer text-black text-[50px]"
                   >
-                    개인정보처리방침 <span className="text-[48px]">(필수)</span>
+                    개인정보처리방침&gt; <span className="text-[48px]">(필수)</span>
                   </span>
                 </div>
                 <div className="flex items-center gap-4">
@@ -294,7 +294,7 @@ const MobilePhoneSurvey = ({
                     onClick={() => setIsPopupOpenInfo3(true)}
                     className="cursor-pointer text-black text-[50px]"
                   >
-                    마케팅 정보수신 동의 <span className="text-[48px] opacity-65">(선택)</span>.
+                    마케팅 정보수신 동의&gt; <span className="text-[48px] opacity-65">(선택)</span>.
                   </span>
                 </div>
                 <div className="flex items-center gap-4">
@@ -309,7 +309,7 @@ const MobilePhoneSurvey = ({
                     onClick={() => setIsPopupOpenInfo4(true)}
                     className="cursor-pointer text-black text-[50px]"
                   >
-                    개인정보 수집 및 이용,<br /> 제3자 동의서 자세히 보기> <span className="text-[48px] opacity-65">(선택)</span>
+                    개인정보 수집 및 이용,<br /> 제3자 동의서 자세히 보기&gt; <span className="text-[48px] opacity-65">(선택)</span>
                   </span>
                 </div>
                 <div className="flex items-center gap-4 mb-4">

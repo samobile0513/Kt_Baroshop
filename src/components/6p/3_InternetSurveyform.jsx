@@ -254,19 +254,19 @@ const InternetSurvey = () => {
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
                   <input type="checkbox" name="terms" checked={agreements.terms} onChange={handleAgreement} />
-                  <span onClick={() => setIsPopupOpenInfo1(true)} className="text-black font-[Paperlogy] text-[15px] underline cursor-pointer">서비스 이용약관 > <span className="text-[12px]">(필수)</span></span>
+                  <span onClick={() => setIsPopupOpenInfo1(true)} className="text-black font-[Paperlogy] text-[15px] underline cursor-pointer">서비스 이용약관&gt; <span className="text-[12px]">(필수)</span></span>
                 </div>
                 <div className="flex items-center gap-2">
                   <input type="checkbox" name="privacy" checked={agreements.privacy} onChange={handleAgreement} />
-                  <span onClick={() => setIsPopupOpenInfo2(true)} className="text-black font-[Paperlogy] text-[15px] underline cursor-pointer">개인정보처리방침 > <span className="text-[12px]">(필수)</span></span>
+                  <span onClick={() => setIsPopupOpenInfo2(true)} className="text-black font-[Paperlogy] text-[15px] underline cursor-pointer">개인정보처리방침&gt; <span className="text-[12px]">(필수)</span></span>
                 </div>
                 <div className="flex items-center gap-2">
                   <input type="checkbox" name="marketing" checked={agreements.marketing} onChange={handleAgreement} />
-                  <span onClick={() => setIsPopupOpenInfo3(true)} className="text-black font-[Paperlogy] text-[15px] underline cursor-pointer">마케팅 정보수신 동의 > <span className="text-[12px]">(선택)</span></span>
+                  <span onClick={() => setIsPopupOpenInfo3(true)} className="text-black font-[Paperlogy] text-[15px] underline cursor-pointer">마케팅 정보수신 동의&gt; <span className="text-[12px]">(선택)</span></span>
                 </div>
                 <div className="flex items-center gap-2">
                   <input type="checkbox" name="thirdParty" checked={agreements.thirdParty} onChange={handleAgreement} />
-                  <span onClick={() => setIsPopupOpenInfo4(true)} className="text-black font-[Paperlogy] text-[15px] underline cursor-pointer">개인정보 수집 및 이용, 제3자 동의서 자세히 보기 > <span className="text-[12px]">(선택)</span></span>
+                  <span onClick={() => setIsPopupOpenInfo4(true)} className="text-black font-[Paperlogy] text-[15px] underline cursor-pointer">개인정보 수집 및 이용, 제3자 동의서 자세히 보기&gt; <span className="text-[12px]">(선택)</span></span>
                 </div>
                 <div className="flex items-center gap-2">
                   <input type="checkbox" name="all" checked={agreements.all} onChange={handleAgreement} />
