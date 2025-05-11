@@ -21,9 +21,9 @@
     "vite": "^5.4.8"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "npm install --legacy-peer-deps && vite build",
-    "preview": "vite preview",
-    "postinstall": "npm install --legacy-peer-deps"
-  }
+  "dev": "vite",
+  "build": "npm install --legacy-peer-deps && vite build",
+  "preview": "vite preview"
+}
+
 }
