@@ -109,12 +109,12 @@ const Layout = () => {
 
   useEffect(() => {
     const updateContentHeight = () => {
-      if (!scrollContainerRef.current) return;
-      // 외부 스크롤 컨테이너의 실제 스크롤 가능 높이(scrollHeight) 가져오기
-      const scrollHeight = scrollContainerRef.current.scrollHeight;
-      // 스케일링 전 높이로 변환 (scrollHeight / scale)
-      const adjustedHeight = scrollHeight / scale;
-      setContentHeight(adjustedHeight);
+      let totalHeight = 0;
+      if (outletRef.current)
+        totalHeight += outletRef.current.getBoundingClientRect().height;
+      if (footerRef.current)
+        totalHeight += footerRef.current.getBoundingClientRect().height;
+      setContentHeight(totalHeight + 100);
     };
     const resizeObserver = new ResizeObserver(updateContentHeight);
     if (outletRef.current) resizeObserver.observe(outletRef.current);
