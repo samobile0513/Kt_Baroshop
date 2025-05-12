@@ -83,13 +83,13 @@ const Layout = () => {
   const footerRef = useRef();
 
   // 모바일 네비게이션 높이 계산
-  const navHeight = isMobileNav ? 50 : 50; // 모바일: 65px, 데스크탑: 50px
+  const navHeight = isMobileNav ? 65 : 50; // 모바일: 65px, 데스크탑: 50px
   // 모바일 헤더 높이 계산
-  const headerHeight = isMobileNav ? 50 : 50; // 모바일: 52px, 데스크탑: 62px
+  const headerHeight = isMobileNav ? 52 : 62; // 모바일: 52px, 데스크탑: 62px
   // 총 패딩 계산
-  const totalPadding = isMobileNav ? headerHeight + navHeight + 20 : 158; // +11은 추가 여백
-  // 819px ~ 1200px 범위에서 추가 여백 계산
-  const extraPadding = !isMobileNav && window.innerWidth > 819 && window.innerWidth <= 1200 ? 0 : 0;
+  const totalPadding = isMobileNav ? headerHeight + navHeight + 11 : 112; // 모바일: 128px, 데스크탑: 112px
+  // 819px ~ 1920px 범위에서 추가 여백 계산
+  const extraPadding = !isMobileNav && window.innerWidth > 819 && window.innerWidth <= 1920 ? 20 : 0;
 
   useEffect(() => {
     if (window.__isModalOpen) return;
