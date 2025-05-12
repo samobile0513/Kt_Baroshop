@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState, useContext } from 'react';
-import { ScaleContext } from './0_Layout';
-import ReactDOM from 'react-dom';
+import React, { useEffect, useRef, useState, useContext } from "react";
+import { ScaleContext } from "./0_Layout";
+import ReactDOM from "react-dom";
 
 const Footer = () => {
   const [scrollY, setScrollY] = useState(0);
   const [footerScale, setFooterScale] = useState(1);
   const contentRef = useRef(null);
-  const [adjustedHeight, setAdjustedHeight] = useState('auto');
+  const [adjustedHeight, setAdjustedHeight] = useState("auto");
   const [loaded, setLoaded] = useState(false);
   const layoutScale = useContext(ScaleContext);
   const [isPopupOpenInfo1, setIsPopupOpenInfo1] = useState(false);
@@ -30,9 +30,9 @@ const Footer = () => {
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -82,15 +82,19 @@ const Footer = () => {
 
   return (
     <>
-      <div className="w-full flex justify-center overflow-x-visible pt-[50px] pb-[50px]" style={{ minHeight: adjustedHeight, backgroundColor: '#3D3D3D' }}>
+      <div
+        className="w-full flex justify-center overflow-x-visible pt-[50px] pb-[50px]"
+        style={{ minHeight: adjustedHeight, backgroundColor: "#3D3D3D" }}
+      >
         <div
           ref={contentRef}
           className="w-full flex flex-col items-start min-w-[1920px]"
           style={{
             zoom: footerScale / layoutScale,
-            transformOrigin: 'top center',
-            paddingLeft: '369px',
-            transform: window.innerWidth <= 1200 ? 'translateX(400px)' : 'translateX(0)',
+            transformOrigin: "top center",
+            paddingLeft: "369px",
+            transform:
+              window.innerWidth <= 1200 ? "translateX(400px)" : "translateX(0)",
           }}
         >
           <img src="/B_footer.svg" alt="footer-part1" />
@@ -131,9 +135,15 @@ const Footer = () => {
             <div className="fixed inset-0 flex justify-center items-center z-[1000] px-4">
               <div className="w-full max-w-[819px] h-[100vh] bg-white rounded-[30px] border-4 border-red-500 overflow-y-auto relative flex flex-col">
                 <div className="sticky top-0 bg-white p-6 border-b z-10">
-                  <h2 className="text-[32px] font-bold text-[#000000] text-center">이용 약관</h2>
+                  <h2 className="text-[32px] font-bold text-[#000000] text-center">
+                    이용 약관
+                  </h2>
                 </div>
-                <div className={`flex-1 p-10 whitespace-pre-wrap ${isMobile ? "text-[10px]" : "text-[15px]"} leading-relaxed text-black`}>
+                <div
+                  className={`flex-1 p-10 whitespace-pre-wrap ${
+                    isMobile ? "text-[10px]" : "text-[15px]"
+                  } leading-relaxed text-black`}
+                >
                   {info1Text}
                 </div>
                 <div className="sticky bottom-0 bg-white p-6 border-t z-10">
@@ -160,9 +170,15 @@ const Footer = () => {
             <div className="fixed inset-0 flex justify-center items-center z-[1000] px-4">
               <div className="w-full max-w-[819px] h-[100vh] bg-white rounded-[30px] border-4 border-red-500 overflow-y-auto relative flex flex-col">
                 <div className="sticky top-0 bg-white p-6 border-b z-10">
-                  <h2 className="text-[32px] font-bold text-[#000000] text-center">개인정보 처리방침</h2>
+                  <h2 className="text-[32px] font-bold text-[#000000] text-center">
+                    개인정보 처리방침
+                  </h2>
                 </div>
-                <div className={`flex-1 p-10 whitespace-pre-wrap ${isMobile ? "text-[10px]" : "text-[15px]"} leading-relaxed text-black`}>
+                <div
+                  className={`flex-1 p-10 whitespace-pre-wrap ${
+                    isMobile ? "text-[10px]" : "text-[15px]"
+                  } leading-relaxed text-black`}
+                >
                   {info2Text}
                 </div>
                 <div className="sticky bottom-0 bg-white p-6 border-t z-10">
@@ -189,9 +205,15 @@ const Footer = () => {
             <div className="fixed inset-0 flex justify-center items-center z-[1000] px-4">
               <div className="w-full max-w-[819px] h-[100vh] bg-white rounded-[30px] border-4 border-red-500 overflow-y-auto relative flex flex-col">
                 <div className="sticky top-0 bg-white p-6 border-b z-10">
-                  <h2 className="text-[32px] font-bold text-[#000000] text-center">마케팅 정보 수신 동의</h2>
+                  <h2 className="text-[32px] font-bold text-[#000000] text-center">
+                    마케팅 정보 수신 동의
+                  </h2>
                 </div>
-                <div className={`flex-1 p-10 whitespace-pre-wrap ${isMobile ? "text-[10px]" : "text-[15px]"} leading-relaxed text-black`}>
+                <div
+                  className={`flex-1 p-10 whitespace-pre-wrap ${
+                    isMobile ? "text-[10px]" : "text-[15px]"
+                  } leading-relaxed text-black`}
+                >
                   {info3Text}
                 </div>
                 <div className="sticky bottom-0 bg-white p-6 border-t z-10">

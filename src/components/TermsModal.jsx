@@ -56,18 +56,26 @@ const TermsModal = ({ isOpen, onClose, children }) => {
         }
         if (modalRef.current) {
           modalRef.current.scrollTop = 0;
-          modalRef.current.style.visibility = 'hidden';
+          modalRef.current.style.visibility = "hidden";
           requestAnimationFrame(() => {
-            modalRef.current.style.visibility = 'visible';
+            modalRef.current.style.visibility = "visible";
           });
         }
       }, 0);
 
       document.addEventListener("keydown", handleKeyDown);
-      scrollRef.current?.addEventListener("wheel", preventScrollPropagation, { passive: true });
-      scrollRef.current?.addEventListener("touchmove", preventTouchPropagation, { passive: false });
+      scrollRef.current?.addEventListener("wheel", preventScrollPropagation, {
+        passive: true,
+      });
+      scrollRef.current?.addEventListener(
+        "touchmove",
+        preventTouchPropagation,
+        { passive: false }
+      );
       window.addEventListener("wheel", preventOuterScroll, { passive: false });
-      window.addEventListener("touchmove", preventOuterScroll, { passive: false });
+      window.addEventListener("touchmove", preventOuterScroll, {
+        passive: false,
+      });
     } else {
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
@@ -75,7 +83,10 @@ const TermsModal = ({ isOpen, onClose, children }) => {
 
       document.removeEventListener("keydown", handleKeyDown);
       scrollRef.current?.removeEventListener("wheel", preventScrollPropagation);
-      scrollRef.current?.removeEventListener("touchmove", preventTouchPropagation);
+      scrollRef.current?.removeEventListener(
+        "touchmove",
+        preventTouchPropagation
+      );
       window.removeEventListener("wheel", preventOuterScroll);
       window.removeEventListener("touchmove", preventOuterScroll);
     }
@@ -87,7 +98,10 @@ const TermsModal = ({ isOpen, onClose, children }) => {
 
       document.removeEventListener("keydown", handleKeyDown);
       scrollRef.current?.removeEventListener("wheel", preventScrollPropagation);
-      scrollRef.current?.removeEventListener("touchmove", preventTouchPropagation);
+      scrollRef.current?.removeEventListener(
+        "touchmove",
+        preventTouchPropagation
+      );
       window.removeEventListener("wheel", preventOuterScroll);
       window.removeEventListener("touchmove", preventOuterScroll);
     };

@@ -1,26 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const phoneImages = [
-  '/B1p/b_41.svg',
-  '/B1p/b_42.svg',
-  '/B1p/b_43.svg',
-  '/B1p/b_44.svg',
+  "/B1p/b_41.svg",
+  "/B1p/b_42.svg",
+  "/B1p/b_43.svg",
+  "/B1p/b_44.svg",
 ];
 
 const additionalPhoneImages = [
-  '/B1p/b_45.svg',
-  '/B1p/b_46.svg',
-  '/B1p/b_47.svg',
-  '/B1p/b_48.svg',
+  "/B1p/b_45.svg",
+  "/B1p/b_46.svg",
+  "/B1p/b_47.svg",
+  "/B1p/b_48.svg",
 ];
 
 const PopularModels = () => {
   const [scale, setScale] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
-  
 
   useEffect(() => {
     const handleResize = () => {
@@ -29,20 +27,20 @@ const PopularModels = () => {
       setScale(width <= 1200 ? 1.8 : 1);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-    const handleClick = () => {
-    navigate('/2_Surveyform');
+  const handleClick = () => {
+    navigate("/2_Surveyform");
   };
 
   return (
     <div className="w-full flex justify-center">
       <div
         style={{
-          width: '820px',
+          width: "820px",
           zoom: scale,
         }}
       >
@@ -52,37 +50,37 @@ const PopularModels = () => {
             <img
               src="/B1p/B_text41.svg"
               className={`absolute ${
-                isMobile ? 'left-[155px] top-[-60px]' : 'left-[-150px] top-[-50px]'
+                isMobile
+                  ? "left-[155px] top-[-60px]"
+                  : "left-[-150px] top-[-50px]"
               }`}
               alt="left-text"
               style={{
-                width: 'auto',
-                height: 'auto',
-                transform: 'none',
-                position: 'absolute',
+                width: "auto",
+                height: "auto",
+                transform: "none",
+                position: "absolute",
                 zIndex: 10,
-                scale: '1.17',
+                scale: "1.17",
               }}
             />
             <img
               src="/B1p/B_text12.svg"
               className={`absolute ${
-                isMobile ? 'right-[120px] bottom-[-25px]' : 'right-[-190px] bottom-[-20px]'
-              } transition-all duration-300 cursor-pointer hover:brightness-125`}
+                isMobile
+                  ? "right-[120px] bottom-[-25px]"
+                  : "right-[-190px] bottom-[-20px]"
+              } cursor-pointer`} // transition-all duration-300 제거
               alt="right-text"
               style={{
-                width: 'auto',
-                height: 'auto',
-                transform: 'none',
-                position: 'absolute',
+                width: "auto",
+                height: "auto",
+                transform: "none",
+                position: "absolute",
                 zIndex: 10,
-                scale: '1',
-                filter: 'none',
-                boxShadow: '0 0 0 rgba(253, 57, 65, 0)',
-                animation: 'sparkle 1.5s infinite',
-              }}
+                scale: "1",
+              }} // boxShadow, filter, animation 제거
               onClick={handleClick}
-
             />
           </div>
 

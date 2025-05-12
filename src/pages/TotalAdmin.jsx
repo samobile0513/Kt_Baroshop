@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { doc, getDoc, setDoc, collection, getDocs, deleteDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  getDocs,
+  deleteDoc,
+} from "firebase/firestore";
 import { db, auth, storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import * as XLSX from "xlsx";
@@ -30,11 +37,11 @@ const TotalAdmin = () => {
   const ENCRYPTED_USERS = [
     {
       username: "U2FsdGVkX1+WUzQ3v5Jv5UqTSLiT78mKw3KjrgPHO1E=",
-      password: "U2FsdGVkX19P66/oqea0JSPKcwah6yG8P59h5msAGaA="
+      password: "U2FsdGVkX19P66/oqea0JSPKcwah6yG8P59h5msAGaA=",
     },
     {
       username: "U2FsdGVkX19CdnBb/QPpKKR7eU9he2i2lJp1UJwRIRM=",
-      password: "U2FsdGVkX194fQRifEFE99Yx50W2N3J4SAWDGgeoC4c="
+      password: "U2FsdGVkX194fQRifEFE99Yx50W2N3J4SAWDGgeoC4c=",
     },
   ];
 
@@ -131,7 +138,9 @@ const TotalAdmin = () => {
         ...doc.data(),
       }));
       console.log("📦 [fetchData] 불러온 데이터:", data);
-      setSubmissions(data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp)));
+      setSubmissions(
+        data.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+      );
     } catch (err) {
       console.error("❌ [fetchData] 에러 발생:", err);
       setError("데이터를 불러오지 못했습니다.");
@@ -255,7 +264,9 @@ const TotalAdmin = () => {
   };
 
   const toggleSelectAll = () => {
-    const filteredSubmissions = submissions.filter((s) => s.type === selectedTab);
+    const filteredSubmissions = submissions.filter(
+      (s) => s.type === selectedTab
+    );
     if (selectedIds.length === filteredSubmissions.length) {
       setSelectedIds([]);
     } else {
@@ -271,13 +282,17 @@ const TotalAdmin = () => {
 
   const handleDeleteSelected = async () => {
     if (!window.confirm("선택된 항목을 삭제할까요?")) return;
-    await Promise.all(selectedIds.map((id) => deleteDoc(doc(db, "submissions", id))));
+    await Promise.all(
+      selectedIds.map((id) => deleteDoc(doc(db, "submissions", id)))
+    );
     setSelectedIds([]);
     fetchData();
   };
 
   const handleExport = () => {
-    const filteredSubmissions = submissions.filter((s) => s.type === selectedTab);
+    const filteredSubmissions = submissions.filter(
+      (s) => s.type === selectedTab
+    );
     let exportData;
 
     if (selectedTab === "phone") {
@@ -335,7 +350,8 @@ const TotalAdmin = () => {
   const handleSort = () => {
     const newOrder = sortOrder === "desc" ? "asc" : "desc";
     const sorted = [...submissions].sort((a, b) => {
-      const t1 = new Date(a.timestamp), t2 = new Date(b.timestamp);
+      const t1 = new Date(a.timestamp),
+        t2 = new Date(b.timestamp);
       return newOrder === "asc" ? t1 - t2 : t2 - t1;
     });
     setSubmissions(sorted);
@@ -383,7 +399,9 @@ const TotalAdmin = () => {
           <h2 className="text-2xl font-bold mb-6 text-center">관리자 로그인</h2>
           <form onSubmit={handleLogin}>
             <div className="mb-4">
-              <label className="block font-[Paperlogy] text-[16px] mb-2">아이디</label>
+              <label className="block font-[Paperlogy] text-[16px] mb-2">
+                아이디
+              </label>
               <input
                 type="text"
                 value={username}
@@ -394,7 +412,9 @@ const TotalAdmin = () => {
               />
             </div>
             <div className="mb-6">
-              <label className="block font-[Paperlogy] text-[16px] mb-2">비밀번호</label>
+              <label className="block font-[Paperlogy] text-[16px] mb-2">
+                비밀번호
+              </label>
               <input
                 type="password"
                 value={password}
@@ -404,7 +424,11 @@ const TotalAdmin = () => {
                 required
               />
             </div>
-            {error && <p className="text-red-500 font-[Paperlogy] text-[14px] mb-4">{error}</p>}
+            {error && (
+              <p className="text-red-500 font-[Paperlogy] text-[14px] mb-4">
+                {error}
+              </p>
+            )}
             <button
               type="submit"
               className="w-full bg-blue-500 text-white py-3 rounded-md font-[Paperlogy] text-[18px] hover:bg-blue-600 transition"
@@ -440,10 +464,14 @@ const TotalAdmin = () => {
       {showChangePassword && (
         <div className="fixed top-28 left-0 right-0 bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-sm mx-auto">
-            <h3 className="text-xl font-bold mb-4 text-center">비밀번호 변경</h3>
+            <h3 className="text-xl font-bold mb-4 text-center">
+              비밀번호 변경
+            </h3>
             <form onSubmit={handleChangePassword}>
               <div className="mb-4">
-                <label className="block font-[Paperlogy] text-[16px] mb-2">현재 비밀번호</label>
+                <label className="block font-[Paperlogy] text-[16px] mb-2">
+                  현재 비밀번호
+                </label>
                 <input
                   type="password"
                   value={currentPassword}
@@ -454,7 +482,9 @@ const TotalAdmin = () => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block font-[Paperlogy] text-[16px] mb-2">새 비밀번호</label>
+                <label className="block font-[Paperlogy] text-[16px] mb-2">
+                  새 비밀번호
+                </label>
                 <input
                   type="password"
                   value={newPassword}
@@ -465,7 +495,9 @@ const TotalAdmin = () => {
                 />
               </div>
               <div className="mb-4">
-                <label className="block font-[Paperlogy] text-[16px] mb-2">새 비밀번호 확인</label>
+                <label className="block font-[Paperlogy] text-[16px] mb-2">
+                  새 비밀번호 확인
+                </label>
                 <input
                   type="password"
                   value={confirmPassword}
@@ -475,7 +507,11 @@ const TotalAdmin = () => {
                   required
                 />
               </div>
-              {changeError && <p className="text-red-500 font-[Paperlogy] text-[14px] mb-4">{changeError}</p>}
+              {changeError && (
+                <p className="text-red-500 font-[Paperlogy] text-[14px] mb-4">
+                  {changeError}
+                </p>
+              )}
               <div className="flex gap-2">
                 <button
                   type="submit"
@@ -505,25 +541,41 @@ const TotalAdmin = () => {
       <div className="flex gap-2 mb-4">
         <button
           onClick={() => setSelectedTab("phone")}
-          className={`px-4 py-2 rounded ${selectedTab === "phone" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"} hover:bg-blue-600 hover:text-white transition`}
+          className={`px-4 py-2 rounded ${
+            selectedTab === "phone"
+              ? "bg-blue-500 text-white"
+              : "bg-gray-200 text-gray-700"
+          } hover:bg-blue-600 hover:text-white transition`}
         >
           휴대폰
         </button>
         <button
           onClick={() => setSelectedTab("internet")}
-          className={`px-4 py-2 rounded ${selectedTab === "internet" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"} hover:bg-blue-600 hover:text-white transition`}
+          className={`px-4 py-2 rounded ${
+            selectedTab === "internet"
+              ? "bg-blue-500 text-white"
+              : "bg-gray-200 text-gray-700"
+          } hover:bg-blue-600 hover:text-white transition`}
         >
           인터넷
         </button>
         <button
           onClick={() => setSelectedTab("fit")}
-          className={`px-4 py-2 rounded ${selectedTab === "fit" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"} hover:bg-blue-600 hover:text-white transition`}
+          className={`px-4 py-2 rounded ${
+            selectedTab === "fit"
+              ? "bg-blue-500 text-white"
+              : "bg-gray-200 text-gray-700"
+          } hover:bg-blue-600 hover:text-white transition`}
         >
           어울림
         </button>
         <button
           onClick={() => setSelectedTab("photos")}
-          className={`px-4 py-2 rounded ${selectedTab === "photos" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"} hover:bg-blue-600 hover:text-white transition`}
+          className={`px-4 py-2 rounded ${
+            selectedTab === "photos"
+              ? "bg-blue-500 text-white"
+              : "bg-gray-200 text-gray-700"
+          } hover:bg-blue-600 hover:text-white transition`}
         >
           사진관리
         </button>
@@ -536,7 +588,11 @@ const TotalAdmin = () => {
               <button
                 key={folder}
                 onClick={() => setCategory(folder)}
-                className={`px-4 py-2 rounded ${category === folder ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700"} hover:bg-blue-600 hover:text-white transition`}
+                className={`px-4 py-2 rounded ${
+                  category === folder
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-200 text-gray-700"
+                } hover:bg-blue-600 hover:text-white transition`}
               >
                 {folder}
               </button>
@@ -549,13 +605,18 @@ const TotalAdmin = () => {
               {uploadedPhotos
                 .filter((photo) => photo.category === category)
                 .map((photo) => (
-                  <div key={`${photo.category}_${photo.fileName}`} className="border p-2 rounded">
+                  <div
+                    key={`${photo.category}_${photo.fileName}`}
+                    className="border p-2 rounded"
+                  >
                     <img
                       src={photo.url}
                       alt={photo.fileName}
                       className="w-full h-32 object-fill" // object-cover → object-fill
                     />
-                    <p className="text-center font-[Paperlogy]">{photo.fileName}</p>
+                    <p className="text-center font-[Paperlogy]">
+                      {photo.fileName}
+                    </p>
                     <input
                       type="file"
                       accept=".svg"
@@ -572,7 +633,11 @@ const TotalAdmin = () => {
                 )) || <p className="text-gray-500">사진이 없습니다.</p>}
             </div>
           </div>
-          {uploadStatus && <p className="text-red-500 font-[Paperlogy] text-[14px] mt-2">{uploadStatus}</p>}
+          {uploadStatus && (
+            <p className="text-red-500 font-[Paperlogy] text-[14px] mt-2">
+              {uploadStatus}
+            </p>
+          )}
         </div>
       ) : (
         <>
@@ -607,45 +672,103 @@ const TotalAdmin = () => {
             <table className="w-full border text-sm shadow-lg rounded-lg">
               <thead>
                 <tr className="bg-gray-100">
-                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">선택</th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    선택
+                  </th>
                   {selectedTab === "phone" && (
                     <>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">이름</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">연락처</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">생년월일</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">단말기</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">가입유형</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">결제</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">할인</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">요청사항</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">선택1</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">선택2</th>
-                      <th className="p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">날짜</th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        이름
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        연락처
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        생년월일
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        단말기
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        가입유형
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        결제
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        할인
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        요청사항
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        선택1
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        선택2
+                      </th>
+                      <th className="p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        날짜
+                      </th>
                     </>
                   )}
                   {selectedTab === "internet" && (
                     <>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">이름</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">연락처</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">생년월일</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">가입유형</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">사은품종류</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">요청사항</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">선택1</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">선택2</th>
-                      <th className="p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">날짜</th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        이름
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        연락처
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        생년월일
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        가입유형
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        사은품종류
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        요청사항
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        선택1
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        선택2
+                      </th>
+                      <th className="p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        날짜
+                      </th>
                     </>
                   )}
                   {selectedTab === "fit" && (
                     <>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">회사명</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">담당자명</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">연락처</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">카테고리</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">사업자or개인</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">요청사항</th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">선택1</th>
-                      <th className="p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">날짜</th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        회사명
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        담당자명
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        연락처
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        카테고리
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        사업자or개인
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        요청사항
+                      </th>
+                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        선택1
+                      </th>
+                      <th className="p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                        날짜
+                      </th>
                     </>
                   )}
                 </tr>
@@ -666,13 +789,27 @@ const TotalAdmin = () => {
                         <td className="border-r p-3 text-center">{s.phone}</td>
                         <td className="border-r p-3 text-center">{s.birth}</td>
                         <td className="border-r p-3 text-center">{s.device}</td>
-                        <td className="border-r p-3 text-center">{s.joinType}</td>
-                        <td className="border-r p-3 text-center">{s.paymentPeriod}</td>
-                        <td className="border-r p-3 text-center">{s.discountType}</td>
-                        <td className="border-r p-3 text-center">{s.additional}</td>
-                        <td className="border-r p-3 text-center">{s.agreements?.marketing ? "Y" : "-"}</td>
-                        <td className="border-r p-3 text-center">{s.agreements?.thirdParty ? "Y" : "-"}</td>
-                        <td className="p-3 text-center">{new Date(s.timestamp).toLocaleString("ko-KR")}</td>
+                        <td className="border-r p-3 text-center">
+                          {s.joinType}
+                        </td>
+                        <td className="border-r p-3 text-center">
+                          {s.paymentPeriod}
+                        </td>
+                        <td className="border-r p-3 text-center">
+                          {s.discountType}
+                        </td>
+                        <td className="border-r p-3 text-center">
+                          {s.additional}
+                        </td>
+                        <td className="border-r p-3 text-center">
+                          {s.agreements?.marketing ? "Y" : "-"}
+                        </td>
+                        <td className="border-r p-3 text-center">
+                          {s.agreements?.thirdParty ? "Y" : "-"}
+                        </td>
+                        <td className="p-3 text-center">
+                          {new Date(s.timestamp).toLocaleString("ko-KR")}
+                        </td>
                       </>
                     )}
                     {selectedTab === "internet" && (
@@ -680,24 +817,50 @@ const TotalAdmin = () => {
                         <td className="border-r p-3 text-center">{s.name}</td>
                         <td className="border-r p-3 text-center">{s.phone}</td>
                         <td className="border-r p-3 text-center">{s.birth}</td>
-                        <td className="border-r p-3 text-center">{s.joinType}</td>
-                        <td className="border-r p-3 text-center">{s.giftType}</td>
-                        <td className="border-r p-3 text-center">{s.additional}</td>
-                        <td className="border-r p-3 text-center">{s.agreements?.marketing ? "Y" : "-"}</td>
-                        <td className="border-r p-3 text-center">{s.agreements?.thirdParty ? "Y" : "-"}</td>
-                        <td className="p-3 text-center">{new Date(s.timestamp).toLocaleString("ko-KR")}</td>
+                        <td className="border-r p-3 text-center">
+                          {s.joinType}
+                        </td>
+                        <td className="border-r p-3 text-center">
+                          {s.giftType}
+                        </td>
+                        <td className="border-r p-3 text-center">
+                          {s.additional}
+                        </td>
+                        <td className="border-r p-3 text-center">
+                          {s.agreements?.marketing ? "Y" : "-"}
+                        </td>
+                        <td className="border-r p-3 text-center">
+                          {s.agreements?.thirdParty ? "Y" : "-"}
+                        </td>
+                        <td className="p-3 text-center">
+                          {new Date(s.timestamp).toLocaleString("ko-KR")}
+                        </td>
                       </>
                     )}
                     {selectedTab === "fit" && (
                       <>
-                        <td className="border-r p-3 text-center">{s.company}</td>
-                        <td className="border-r p-3 text-center">{s.manager}</td>
+                        <td className="border-r p-3 text-center">
+                          {s.company}
+                        </td>
+                        <td className="border-r p-3 text-center">
+                          {s.manager}
+                        </td>
                         <td className="border-r p-3 text-center">{s.phone}</td>
-                        <td className="border-r p-3 text-center">{s.category}</td>
-                        <td className="border-r p-3 text-center">{s.businessType}</td>
-                        <td className="border-r p-3 text-center">{s.additional}</td>
-                        <td className="border-r p-3 text-center">{s.agreements?.marketing ? "Y" : "-"}</td>
-                        <td className="p-3 text-center">{new Date(s.timestamp).toLocaleString("ko-KR")}</td>
+                        <td className="border-r p-3 text-center">
+                          {s.category}
+                        </td>
+                        <td className="border-r p-3 text-center">
+                          {s.businessType}
+                        </td>
+                        <td className="border-r p-3 text-center">
+                          {s.additional}
+                        </td>
+                        <td className="border-r p-3 text-center">
+                          {s.agreements?.marketing ? "Y" : "-"}
+                        </td>
+                        <td className="p-3 text-center">
+                          {new Date(s.timestamp).toLocaleString("ko-KR")}
+                        </td>
                       </>
                     )}
                   </tr>

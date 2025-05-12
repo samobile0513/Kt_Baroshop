@@ -1,5 +1,5 @@
-import { Outlet, useLocation } from 'react-router-dom';
-import { createContext, useEffect, useRef, useState } from 'react';
+import { Outlet, useLocation } from "react-router-dom";
+import { createContext, useEffect, useRef, useState } from "react";
 import Header from "../components/1_header";
 import NavMenu from "../components/2_NavMenu";
 import Footer from "../components/3_Footer";
@@ -13,6 +13,9 @@ export const ScaleContext = createContext();
 // 네비게이션과 헤더를 별도로 관리하는 컴포넌트
 const Navigation = ({ isMobileNav, mobileScale, scrollContainerRef }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  
+  // 모바일 네비게이션 높이 계산
+  const navHeight = isMobileNav ? 65 : 50; // 모바일: 65px, 데스크탑: 50px
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,11 +25,11 @@ const Navigation = ({ isMobileNav, mobileScale, scrollContainerRef }) => {
     };
     const container = scrollContainerRef.current;
     if (container) {
-      container.addEventListener('scroll', handleScroll);
+      container.addEventListener("scroll", handleScroll);
     }
     return () => {
       if (container) {
-        container.removeEventListener('scroll', handleScroll);
+        container.removeEventListener("scroll", handleScroll);
       }
     };
   }, [scrollContainerRef]);
@@ -39,29 +42,26 @@ const Navigation = ({ isMobileNav, mobileScale, scrollContainerRef }) => {
             <MobileHeader
               mobileScale={mobileScale}
               className="header-container"
-              style={{ width: '100vw' }}
+              style={{ width: "100vw" }}
             />
           )}
           <MobileNavMenu
             mobileScale={mobileScale}
             style={{
-              width: '100vw',
-              position: 'fixed',
-              top: isScrolled ? '0' : '52px',
+              width: "100vw",
+              position: "fixed",
+              top: isScrolled ? "0" : "52px",
+              height: `${navHeight}px`, // 명시적 높이 설정
             }}
           />
         </>
       ) : (
         <>
-          {!isScrolled && (
-            <Header
-              className="header-container"
-            />
-          )}
+          {!isScrolled && <Header className="header-container" />}
           <NavMenu
             style={{
-              position: 'fixed',
-              top: isScrolled ? '0' : '62px',
+              position: "fixed",
+              top: isScrolled ? "0" : "62px",
             }}
           />
         </>
@@ -81,6 +81,15 @@ const Layout = () => {
   const contentRef = useRef();
   const outletRef = useRef();
   const footerRef = useRef();
+
+  // 모바일 네비게이션 높이 계산
+  const navHeight = isMobileNav ? 50 : 50; // 모바일: 65px, 데스크탑: 50px
+  // 모바일 헤더 높이 계산
+  const headerHeight = isMobileNav ? 50 : 50; // 모바일: 52px, 데스크탑: 62px
+  // 총 패딩 계산
+  const totalPadding = isMobileNav ? headerHeight + navHeight + 20 : 158; // +11은 추가 여백
+  // 819px ~ 1200px 범위에서 추가 여백 계산
+  const extraPadding = !isMobileNav && window.innerWidth > 819 && window.innerWidth <= 1200 ? 0 : 0;
 
   useEffect(() => {
     if (window.__isModalOpen) return;
@@ -106,16 +115,18 @@ const Layout = () => {
         setScale(screenWidth >= 1920 ? screenWidth / 1920 : 1);
       }
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
     const updateContentHeight = () => {
       let totalHeight = 0;
-      if (outletRef.current) totalHeight += outletRef.current.getBoundingClientRect().height;
-      if (footerRef.current) totalHeight += footerRef.current.getBoundingClientRect().height;
+      if (outletRef.current)
+        totalHeight += outletRef.current.getBoundingClientRect().height;
+      if (footerRef.current)
+        totalHeight += footerRef.current.getBoundingClientRect().height;
       setContentHeight(totalHeight + 100);
     };
     const resizeObserver = new ResizeObserver(updateContentHeight);
@@ -138,8 +149,8 @@ const Layout = () => {
   );
 
   const scrollbarHideStyle = {
-    msOverflowStyle: 'none',
-    scrollbarWidth: 'none',
+    msOverflowStyle: "none",
+    scrollbarWidth: "none",
   };
 
   return (
@@ -155,27 +166,30 @@ const Layout = () => {
           ref={scrollContainerRef}
           className="flex-1 flex justify-center items-start overflow-x-hidden overflow-y-auto bg-white"
           style={{
-            minHeight: '100vh',
-            height: '100vh',
+            minHeight: "100vh",
+            height: "100vh",
             ...scrollbarHideStyle,
-            paddingTop: isMobileNav ? '104px' : '112px',
+            paddingTop: `${totalPadding + extraPadding}px`, // 동적 패딩에 추가 여백 적용
           }}
         >
           <div
             ref={contentRef}
             className="flex justify-center w-full"
             style={{
-              height: isMobile && contentHeight ? `calc(${contentHeight}px * ${scale})` : 'auto',
-              minHeight: '100vh',
+              height:
+                isMobile && contentHeight
+                  ? `calc(${contentHeight}px * ${scale})`
+                  : "auto",
+              minHeight: "100vh",
             }}
           >
             <div
               className="flex flex-col w-full"
               style={{
-                width: '1920px',
+                width: "1920px",
                 transform: `scale(${scale})`,
-                transformOrigin: 'top center',
-                minHeight: isMobile ? '100%' : 'auto',
+                transformOrigin: "top center",
+                minHeight: isMobile ? "100%" : "auto",
               }}
             >
               <div>
@@ -203,12 +217,12 @@ const Layout = () => {
 
       <div
         style={{
-          position: 'fixed',
+          position: "fixed",
           top: 0,
           left: 0,
-          width: '100%',
-          height: '100%',
-          pointerEvents: 'none',
+          width: "100%",
+          height: "100%",
+          pointerEvents: "none",
           zIndex: -1,
         }}
         onWheel={(e) => {

@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import ConsultPopup from './other/ConsultPopup.jsx'; 
-
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ConsultPopup from "./other/ConsultPopup.jsx";
 
 const StopBanner = () => {
   const navigate = useNavigate();
@@ -23,8 +22,8 @@ const StopBanner = () => {
       }
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handlePopupClick = () => {
@@ -44,10 +43,10 @@ const StopBanner = () => {
   };
 
   const handleConsultSelect = (type) => {
-    if (type === 'internet') {
-      navigate('/3_Surveyform2');
-    } else if (type === 'phone') {
-      navigate('/2_Surveyform');
+    if (type === "internet") {
+      navigate("/3_Surveyform2");
+    } else if (type === "phone") {
+      navigate("/2_Surveyform");
     }
     setShowConsultPopup(false);
   };
@@ -60,10 +59,10 @@ const StopBanner = () => {
         className="fixed bottom-0 left-0 w-full z-50 flex justify-center"
         style={{
           transform: `scale(${scale})`,
-          transformOrigin: 'bottom center',
+          transformOrigin: "bottom center",
           height: `${120 * scale}px`,
-          backgroundColor: 'rgba(0, 0, 0, 0.65)',
-          overflow: 'hidden',
+          backgroundColor: "rgba(0, 0, 0, 0.65)",
+          overflow: "hidden",
         }}
       >
         <div className="min-w-[1920px] flex items-center justify-between px-[400px]">
@@ -85,7 +84,11 @@ const StopBanner = () => {
             <button onClick={handleConsultClick}>
               <img src="/stop4.svg" alt="상담신청" className="h-[48px]" />
             </button>
-            <a href="http://pf.kakao.com/_DWxdsn" target="_blank" rel="noopener noreferrer">
+            <a
+              href="http://pf.kakao.com/_DWxdsn"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <img src="/stop5.svg" alt="카카오톡 상담" className="h-[48px]" />
             </a>
             <div onClick={handlePopupClick}>
@@ -99,41 +102,43 @@ const StopBanner = () => {
       {showPopup && (
         <div
           style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            backgroundColor: '#FFFFFF',
-            padding: '30px',
-            borderRadius: '20px',
-            boxShadow: '0 4px 15px rgba(255, 51, 51, 0.3)',
+            position: "fixed",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor: "#FFFFFF",
+            padding: "30px",
+            borderRadius: "20px",
+            boxShadow: "0 4px 15px rgba(255, 51, 51, 0.3)",
             zIndex: 100,
-            animation: 'sparkle 1.5s infinite',
-            border: '2px solid #FD3941',
+            animation: "sparkle 1.5s infinite",
+            border: "2px solid #FD3941",
           }}
         >
-          <div style={{ textAlign: 'center' }}>
+          <div style={{ textAlign: "center" }}>
             <p
               style={{
-                fontFamily: 'Paperlogy-5Medium',
-                fontSize: '20px',
-                color: '#333333',
-                marginBottom: '20px',
+                fontFamily: "Paperlogy-5Medium",
+                fontSize: "20px",
+                color: "#333333",
+                marginBottom: "20px",
               }}
             >
-              1551-1531 연락 주시면<br />친절하게 상담해드립니다 ✨
+              1551-1531 연락 주시면
+              <br />
+              친절하게 상담해드립니다 ✨
             </p>
             <button
               onClick={handleClosePopup}
               style={{
-                backgroundColor: '#333333',
-                color: 'white',
-                padding: '10px 20px',
-                borderRadius: '10px',
-                border: 'none',
-                cursor: 'pointer',
-                fontFamily: 'Paperlogy-5Medium',
-                fontSize: '16px',
+                backgroundColor: "#333333",
+                color: "white",
+                padding: "10px 20px",
+                borderRadius: "10px",
+                border: "none",
+                cursor: "pointer",
+                fontFamily: "Paperlogy-5Medium",
+                fontSize: "16px",
               }}
             >
               닫기
@@ -152,12 +157,12 @@ const StopBanner = () => {
       {showPopup && (
         <div
           style={{
-            position: 'fixed',
+            position: "fixed",
             top: 0,
             left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
             zIndex: 99,
           }}
           onClick={handleClosePopup}
@@ -166,7 +171,8 @@ const StopBanner = () => {
 
       <style jsx>{`
         @keyframes sparkle {
-          0%, 100% {
+          0%,
+          100% {
             box-shadow: 0 4px 15px rgba(255, 51, 51, 0.3);
           }
           50% {

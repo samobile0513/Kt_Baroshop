@@ -48,7 +48,10 @@ const MainImageSlider = () => {
 
   const startAutoSlide = () => {
     intervalRef.current = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % (isMobile ? mobileImages.length : desktopImages.length));
+      setCurrent(
+        (prev) =>
+          (prev + 1) % (isMobile ? mobileImages.length : desktopImages.length)
+      );
     }, 3000);
   };
 
@@ -71,8 +74,19 @@ const MainImageSlider = () => {
     const diff = touchStartX.current - touchEndX.current;
 
     if (Math.abs(diff) > 50) {
-      if (diff > 0) setCurrent((prev) => (prev + 1) % (isMobile ? mobileImages.length : desktopImages.length));
-      else setCurrent((prev) => (prev - 1 + (isMobile ? mobileImages.length : desktopImages.length)) % (isMobile ? mobileImages.length : desktopImages.length));
+      if (diff > 0)
+        setCurrent(
+          (prev) =>
+            (prev + 1) % (isMobile ? mobileImages.length : desktopImages.length)
+        );
+      else
+        setCurrent(
+          (prev) =>
+            (prev -
+              1 +
+              (isMobile ? mobileImages.length : desktopImages.length)) %
+            (isMobile ? mobileImages.length : desktopImages.length)
+        );
     }
   };
 
@@ -85,8 +99,19 @@ const MainImageSlider = () => {
     const diff = mouseDownX.current - e.clientX;
 
     if (Math.abs(diff) > 50) {
-      if (diff > 0) setCurrent((prev) => (prev + 1) % (isMobile ? mobileImages.length : desktopImages.length));
-      else setCurrent((prev) => (prev - 1 + (isMobile ? mobileImages.length : desktopImages.length)) % (isMobile ? mobileImages.length : desktopImages.length));
+      if (diff > 0)
+        setCurrent(
+          (prev) =>
+            (prev + 1) % (isMobile ? mobileImages.length : desktopImages.length)
+        );
+      else
+        setCurrent(
+          (prev) =>
+            (prev -
+              1 +
+              (isMobile ? mobileImages.length : desktopImages.length)) %
+            (isMobile ? mobileImages.length : desktopImages.length)
+        );
     }
     mouseDownX.current = null;
   };

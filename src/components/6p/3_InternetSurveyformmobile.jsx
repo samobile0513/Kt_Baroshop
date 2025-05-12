@@ -10,7 +10,7 @@ const InternetSurvey = ({
   handleAgreement,
   handleSubmit,
   openModalAt,
-  error
+  error,
 }) => {
   const containerRef = useRef(null);
   const [zoom, setZoom] = useState(1);
@@ -75,13 +75,16 @@ const InternetSurvey = ({
 
   const boxStyle = (active) =>
     `border rounded-md py-12 text-[64px] text-center ${
-      active ? "border-[#FD3941] font-bold text-[#FD3941]" : "border-black text-black"
+      active
+        ? "border-[#FD3941] font-bold text-[#FD3941]"
+        : "border-black text-black"
     }`;
 
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      const ratio = width <= 819 ? Math.max(Math.min((width / 819) * 1.3, 1.3), 1.3) : 1.3;
+      const ratio =
+        width <= 819 ? Math.max(Math.min((width / 819) * 1.3, 1.3), 1.3) : 1.3;
       setZoom(ratio);
     };
 
@@ -99,12 +102,18 @@ const InternetSurvey = ({
       >
         <div className="w-[819px] px-4 font-[font-4]">
           <div className="flex flex-col items-center text-center mb-[120px]">
-            <h2 className="text-[70.5px] text-[#01A69F] font-[font-8] mb-4">KT인터넷은 바로 바로샵</h2>
-            <h1 className="text-[75px] font-bold font-[font-5] mb-4">전국 최저가 요금 확인하기</h1>
+            <h2 className="text-[70.5px] text-[#01A69F] font-[font-8] mb-4">
+              KT인터넷은 바로 바로샵
+            </h2>
+            <h1 className="text-[75px] font-bold font-[font-5] mb-4">
+              전국 최저가 요금 확인하기
+            </h1>
             <p className="text-[45px]">원하시는 휴대폰 상품을 선택해 주세요.</p>
           </div>
 
-          <h3 className="text-[80px] font-bold font-[font-7] mb-12 pl-[20px]">가입자 정보</h3>
+          <h3 className="text-[80px] font-bold font-[font-7] mb-12 pl-[20px]">
+            가입자 정보
+          </h3>
 
           <div className="mb-12">
             <label className="text-[80px] block mb-4 pl-[20px]">이름</label>
@@ -129,7 +138,9 @@ const InternetSurvey = ({
           </div>
 
           <div className="mb-12">
-            <label className="text-[80px] block mb-4 pl-[20px]">휴대폰 번호</label>
+            <label className="text-[80px] block mb-4 pl-[20px]">
+              휴대폰 번호
+            </label>
             <input
               name="phone"
               value={form.phone}
@@ -142,8 +153,12 @@ const InternetSurvey = ({
           <div className="h-[2px] w-[700px] bg-black mx-auto mb-4"></div>
 
           <div className="mb-[150px] mt-[150px]">
-            <p className="text-[32px] text-[#FD3941] mb-2 text-center">※ 인터넷 단독 신청 시 사은품 전화상담 필수!</p>
-            <p className="text-[60px] mb-4 text-center">가입유형을 {'>'} 선택해 주세요.</p>
+            <p className="text-[32px] text-[#FD3941] mb-2 text-center">
+              ※ 인터넷 단독 신청 시 사은품 전화상담 필수!
+            </p>
+            <p className="text-[60px] mb-4 text-center">
+              가입유형을 {">"} 선택해 주세요.
+            </p>
             <div className="flex flex-col gap-4">
               {["인터넷", "인터넷+TV", "인터넷+TV+휴대폰"].map((item) => (
                 <button
@@ -158,37 +173,67 @@ const InternetSurvey = ({
           </div>
 
           <div className="mb-[150px]">
-            <p className="text-[72px] mb-4 text-center">원하시는 사은품 종류를<br />선택해 주세요.</p>
+            <p className="text-[72px] mb-4 text-center">
+              원하시는 사은품 종류를
+              <br />
+              선택해 주세요.
+            </p>
             <div className="space-y-8">
               <button
                 onClick={() => handleSelect("giftType", "상품권")}
                 className={`w-full border p-12 rounded-md text-center ${
-                  isActive("giftType", "상품권") ? "border-[#FD3941]" : "border-black"
+                  isActive("giftType", "상품권")
+                    ? "border-[#FD3941]"
+                    : "border-black"
                 }`}
               >
-                <div className={`text-[88px] font-bold ${isActive("giftType", "상품권") ? "text-[#FD3941]" : "text-black"}`}>
+                <div
+                  className={`text-[88px] font-bold ${
+                    isActive("giftType", "상품권")
+                      ? "text-[#FD3941]"
+                      : "text-black"
+                  }`}
+                >
                   상품권
                 </div>
-                <div className="text-[50px] text-gray-700">약 50만원 상당의 상품권<br />(편의점/백화점)</div>
+                <div className="text-[50px] text-gray-700">
+                  약 50만원 상당의 상품권
+                  <br />
+                  (편의점/백화점)
+                </div>
               </button>
 
               <button
                 onClick={() => handleSelect("giftType", "가전제품")}
                 className={`w-full border p-12 rounded-md text-center ${
-                  isActive("giftType", "가전제품") ? "border-[#FD3941]" : "border-black"
+                  isActive("giftType", "가전제품")
+                    ? "border-[#FD3941]"
+                    : "border-black"
                 }`}
               >
-                <div className={`text-[88px] font-bold flex justify-center items-center ${isActive("giftType", "가전제품") ? "text-[#FD3941]" : "text-black"}`}>
+                <div
+                  className={`text-[88px] font-bold flex justify-center items-center ${
+                    isActive("giftType", "가전제품")
+                      ? "text-[#FD3941]"
+                      : "text-black"
+                  }`}
+                >
                   가전제품
-                  <span className="ml-4 bg-[#FD3941] text-white px-4 py-[2px] rounded-full text-[48px]">추천</span>
+                  <span className="ml-4 bg-[#FD3941] text-white px-4 py-[2px] rounded-full text-[48px]">
+                    추천
+                  </span>
                 </div>
-                <div className="text-[50px] text-gray-700">TV, 청소기, 공기청정기 등</div>
+                <div className="text-[50px] text-gray-700">
+                  TV, 청소기, 공기청정기 등
+                </div>
               </button>
             </div>
           </div>
 
           <div className="mb-[50px]">
-            <h3 className="text-[80px] font-[font-7] mb-4 text-center">기타 요청사항</h3>
+            <h3 className="text-[80px] font-[font-7] mb-4 text-center">
+              기타 요청사항
+            </h3>
             <textarea
               name="additional"
               value={form.additional}
@@ -201,7 +246,9 @@ const InternetSurvey = ({
 
           <div className="mt-20">
             <div>
-              <p className="text-black text-[80px] mb-4">약관을 확인해 주세요</p>
+              <p className="text-black text-[80px] mb-4">
+                약관을 확인해 주세요
+              </p>
             </div>
             <div className="pl-[20px]">
               <div className="flex flex-col gap-4">
@@ -247,7 +294,8 @@ const InternetSurvey = ({
                     onClick={() => setIsPopupOpenInfo3(true)}
                     className="cursor-pointer text-black text-[50px]"
                   >
-                    마케팅 정보수신 동의 <span className="text-[48px] opacity-65">(선택)</span>
+                    마케팅 정보수신 동의{" "}
+                    <span className="text-[48px] opacity-65">(선택)</span>
                   </span>
                 </div>
                 <div className="flex items-center gap-4">
@@ -262,7 +310,9 @@ const InternetSurvey = ({
                     onClick={() => setIsPopupOpenInfo4(true)}
                     className="cursor-pointer text-black text-[50px]"
                   >
-                    개인정보 수집 및 이용,<br /> 제3자 동의서 자세히 보기 {'>'} <span className="text-[48px] opacity-65">(선택)</span>
+                    개인정보 수집 및 이용,
+                    <br /> 제3자 동의서 자세히 보기 {">"}{" "}
+                    <span className="text-[48px] opacity-65">(선택)</span>
                   </span>
                 </div>
                 <div className="flex items-center gap-4 mb-4">
@@ -273,7 +323,9 @@ const InternetSurvey = ({
                     onChange={handleAgreement}
                     className="w-8 h-8"
                   />
-                  <span className="text-black text-[80px]">전체 동의합니다.</span>
+                  <span className="text-black text-[80px]">
+                    전체 동의합니다.
+                  </span>
                 </div>
               </div>
             </div>
@@ -297,7 +349,9 @@ const InternetSurvey = ({
               <div className="w-full max-w-[819px] h-[100vh] bg-white rounded-[30px] border-4 border-red-500 overflow-y-auto relative flex flex-col">
                 {/* ⬆️ 상단 sticky 제목 */}
                 <div className="sticky top-0 bg-white p-6 border-b z-10">
-                  <h2 className="text-[25px] font-bold text-[#000000] text-center">이용 약관&gt;</h2>
+                  <h2 className="text-[25px] font-bold text-[#000000] text-center">
+                    이용 약관&gt;
+                  </h2>
                 </div>
 
                 {/* 본문 텍스트 */}
@@ -333,7 +387,9 @@ const InternetSurvey = ({
               <div className="w-full max-w-[819px] h-[100vh] bg-white rounded-[30px] border-4 border-red-500 overflow-y-auto relative flex flex-col">
                 {/* ⬆️ 상단 sticky 제목 */}
                 <div className="sticky top-0 bg-white p-6 border-b z-10">
-                  <h2 className="text-[25px] font-bold text-[#000000] text-center">개인정보 처리방침&gt;</h2>
+                  <h2 className="text-[25px] font-bold text-[#000000] text-center">
+                    개인정보 처리방침&gt;
+                  </h2>
                 </div>
 
                 {/* 본문 텍스트 */}
@@ -369,7 +425,9 @@ const InternetSurvey = ({
               <div className="w-full max-w-[819px] h-[100vh] bg-white rounded-[30px] border-4 border-red-500 overflow-y-auto relative flex flex-col">
                 {/* ⬆️ 상단 sticky 제목 */}
                 <div className="sticky top-0 bg-white p-6 border-b z-10">
-                  <h2 className="text-[25px] font-bold text-[#000000] text-center">마케팅 정보 수신 동의&gt;</h2>
+                  <h2 className="text-[25px] font-bold text-[#000000] text-center">
+                    마케팅 정보 수신 동의&gt;
+                  </h2>
                 </div>
 
                 {/* 본문 텍스트 */}
@@ -405,7 +463,10 @@ const InternetSurvey = ({
               <div className="w-full max-w-[819px] h-[100vh] bg-white rounded-[30px] border-4 border-red-500 overflow-y-auto relative flex flex-col">
                 {/* ⬆️ 상단 sticky 제목 */}
                 <div className="sticky top-0 bg-white p-6 border-b z-10">
-                  <h2 className="text-[25px] font-bold text-[#000000] text-center">개인정보 수집및 이용 및 <br />제3자 동의서&gt;</h2>
+                  <h2 className="text-[25px] font-bold text-[#000000] text-center">
+                    개인정보 수집및 이용 및 <br />
+                    제3자 동의서&gt;
+                  </h2>
                 </div>
 
                 {/* 본문 텍스트 */}

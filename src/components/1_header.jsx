@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Header = () => {
   return (
@@ -7,7 +7,7 @@ const Header = () => {
         {/* 왼쪽 텍스트 */}
         <span
           className="text-[20px] text-[#3e3e3e]"
-          style={{ fontFamily: 'font-4' }}
+          style={{ fontFamily: "font-4" }}
         >
           기업을 운영하는 사람이라면 필수! 세금감면의 지름길
         </span>
@@ -20,11 +20,7 @@ const Header = () => {
         />
 
         {/* 로고 이미지 */}
-        <img
-          src="/B1p/B_logo.svg"
-          alt="로고"
-          className="h-[24px]"
-        />
+        <img src="/B1p/B_logo.svg" alt="로고" className="h-[24px]" />
 
         {/* 화살표 아이콘 (SVG) */}
         <img

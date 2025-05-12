@@ -1,11 +1,11 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const RelatedEmploymentSection = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate('/3_Surveyform2');
+    navigate("/3_Surveyform2");
   };
 
   return (
@@ -41,7 +41,7 @@ const RelatedEmploymentSection = () => {
         onClick={handleClick}
         className="cursor-pointer"
       />
-      
+
       <div className="mt-[100px]" />
     </div>
   );

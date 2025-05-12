@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
 const AboutSection = () => {
   const [scale, setScale] = useState(1);
@@ -12,7 +12,7 @@ const AboutSection = () => {
   const imageCount = 7;
 
   const handleImageLoad = () => {
-    setLoadedCount(prev => {
+    setLoadedCount((prev) => {
       const updated = prev + 1;
       if (updated === imageCount) {
         setLoaded(true);
@@ -28,9 +28,9 @@ const AboutSection = () => {
       setScale(width <= 1200 ? 1.3 : 1);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
@@ -43,28 +43,42 @@ const AboutSection = () => {
         }}
       >
         <div className="mt-[10px]">
-          <img src="/B1p/B_text51.svg" alt="text-51" onLoad={handleImageLoad} className="mx-auto" />
+          <img
+            src="/B1p/B_text51.svg"
+            alt="text-51"
+            onLoad={handleImageLoad}
+            className="mx-auto"
+          />
         </div>
         <div className="mt-[20px]" />
 
         <div className="grid grid-cols-2 gap-x-[20px] gap-y-[30px] md:flex md:gap-[17px] md:justify-center md:flex-wrap">
-          {[51, 52, 53, 54].map(i => (
-            <img key={i} src={`/B1p/b_${i}.svg`} alt={`b_${i}`} onLoad={handleImageLoad} />
+          {[51, 52, 53, 54].map((i) => (
+            <img
+              key={i}
+              src={`/B1p/b_${i}.svg`}
+              alt={`b_${i}`}
+              onLoad={handleImageLoad}
+            />
           ))}
         </div>
 
         <div className="mt-[1px]" />
         <Link to="/center1">
-        <img
-          src="/B1p/b_55.svg"
-          alt="b_55"
-          onLoad={handleImageLoad}
-          className={`cursor-pointer rounded-[8px] transition-all duration-300 ease-in-out 
-            ${hovered ? "scale-[1.05] brightness-105 shadow-xl" : "animate-breathe"}`}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        />
-      </Link>
+          <img
+            src="/B1p/b_55.svg"
+            alt="b_55"
+            onLoad={handleImageLoad}
+            className={`cursor-pointer rounded-[8px] transition-all duration-300 ease-in-out 
+            ${
+              hovered
+                ? "scale-[1.05] brightness-105 shadow-xl"
+                : "animate-breathe"
+            }`}
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+          />
+        </Link>
 
         <div className="mt-[40px]" />
       </div>

@@ -25,36 +25,39 @@ const MainImageSlider = () => {
 
   // 반응형 로직
   useEffect(() => {
-      const handleResize = () => {
-        const width = window.innerWidth;
-        setIsMobile(width <= 500);
-        if (width <= 500) {
-          if (width >= 100 && width <= 393) {
-            setScale(2.2); // 100px ~ 393px: scale 고정 2.2
-          } else {
-            setScale(Math.min((width / 393) * 2.2, 2.2)); // 393px ~ 500px: 비율 조정, 최대 2.2
-          }
+    const handleResize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width <= 500);
+      if (width <= 500) {
+        if (width >= 100 && width <= 393) {
+          setScale(2.2); // 100px ~ 393px: scale 고정 2.2
         } else {
-          setScale(1); // 500px 초과: scale = 1
+          setScale(Math.min((width / 393) * 2.2, 2.2)); // 393px ~ 500px: 비율 조정, 최대 2.2
         }
-      };
-
-      window.addEventListener("resize", handleResize);
-      handleResize();
-      return () => window.removeEventListener("resize", handleResize);
-    }, []);
-
-    // 자동 슬라이드
-    useEffect(() => {
-      startAutoSlide();
-      return () => stopAutoSlide();
-    }, []);
-
-    const startAutoSlide = () => {
-      intervalRef.current = setInterval(() => {
-        setCurrent((prev) => (prev + 1) % (isMobile ? mobileImages.length : desktopImages.length));
-      }, 3000);
+      } else {
+        setScale(1); // 500px 초과: scale = 1
+      }
     };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // 자동 슬라이드
+  useEffect(() => {
+    startAutoSlide();
+    return () => stopAutoSlide();
+  }, []);
+
+  const startAutoSlide = () => {
+    intervalRef.current = setInterval(() => {
+      setCurrent(
+        (prev) =>
+          (prev + 1) % (isMobile ? mobileImages.length : desktopImages.length)
+      );
+    }, 3000);
+  };
 
   const stopAutoSlide = () => {
     clearInterval(intervalRef.current);
@@ -75,8 +78,19 @@ const MainImageSlider = () => {
     const diff = touchStartX.current - touchEndX.current;
 
     if (Math.abs(diff) > 50) {
-      if (diff > 0) setCurrent((prev) => (prev + 1) % (isMobile ? mobileImages.length : desktopImages.length));
-      else setCurrent((prev) => (prev - 1 + (isMobile ? mobileImages.length : desktopImages.length)) % (isMobile ? mobileImages.length : desktopImages.length));
+      if (diff > 0)
+        setCurrent(
+          (prev) =>
+            (prev + 1) % (isMobile ? mobileImages.length : desktopImages.length)
+        );
+      else
+        setCurrent(
+          (prev) =>
+            (prev -
+              1 +
+              (isMobile ? mobileImages.length : desktopImages.length)) %
+            (isMobile ? mobileImages.length : desktopImages.length)
+        );
     }
   };
 
@@ -89,8 +103,19 @@ const MainImageSlider = () => {
     const diff = mouseDownX.current - e.clientX;
 
     if (Math.abs(diff) > 50) {
-      if (diff > 0) setCurrent((prev) => (prev + 1) % (isMobile ? mobileImages.length : desktopImages.length));
-      else setCurrent((prev) => (prev - 1 + (isMobile ? mobileImages.length : desktopImages.length)) % (isMobile ? mobileImages.length : desktopImages.length));
+      if (diff > 0)
+        setCurrent(
+          (prev) =>
+            (prev + 1) % (isMobile ? mobileImages.length : desktopImages.length)
+        );
+      else
+        setCurrent(
+          (prev) =>
+            (prev -
+              1 +
+              (isMobile ? mobileImages.length : desktopImages.length)) %
+            (isMobile ? mobileImages.length : desktopImages.length)
+        );
     }
     mouseDownX.current = null;
   };

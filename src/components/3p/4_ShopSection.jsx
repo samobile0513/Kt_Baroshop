@@ -1,16 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-const phoneImagesSet1 = [
-  '/B3p/b3_41.svg',
-  '/B3p/b3_42.svg',
-  '/B3p/b3_43.svg',
-];
+const phoneImagesSet1 = ["/B3p/b3_41.svg", "/B3p/b3_42.svg", "/B3p/b3_43.svg"];
 
-const phoneImagesSet2 = [
-  '/B3p/b3_44.svg',
-  '/B3p/b3_45.svg',
-  '/B3p/b3_46.svg',
-];
+const phoneImagesSet2 = ["/B3p/b3_44.svg", "/B3p/b3_45.svg", "/B3p/b3_46.svg"];
 
 const PopularModels = () => {
   const [scale, setScale] = useState(1);
@@ -23,16 +15,16 @@ const PopularModels = () => {
       setScale(width <= 1200 ? 1 : 1);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
     <div className="w-full flex justify-center">
       <div
         style={{
-          width: '820px',
+          width: "820px",
           zoom: scale,
         }}
       >
@@ -42,16 +34,18 @@ const PopularModels = () => {
             <img
               src="/B3p/b3_4title1.svg"
               className={`absolute ${
-                isMobile ? 'left-[75px] top-[-60px]' : 'left-[-145px] top-[-30px]'
+                isMobile
+                  ? "left-[75px] top-[-60px]"
+                  : "left-[-145px] top-[-30px]"
               }`}
               alt="left-text"
               style={{
-                width: 'auto',
-                height: 'auto',
-                transform: 'none',
-                position: 'absolute',
+                width: "auto",
+                height: "auto",
+                transform: "none",
+                position: "absolute",
                 zIndex: 10,
-                scale: isMobile ? '1.7' : '1', // 1200px 이하: 0.8, 초과: 1
+                scale: isMobile ? "1.7" : "1", // 1200px 이하: 0.8, 초과: 1
               }}
             />
           </div>
@@ -71,16 +65,18 @@ const PopularModels = () => {
             <img
               src="/B3p/b3_4title2.svg"
               className={`absolute ${
-                isMobile ? 'left-[50px] top-[-60px]' : 'left-[-145px] top-[-30px]'
+                isMobile
+                  ? "left-[50px] top-[-60px]"
+                  : "left-[-145px] top-[-30px]"
               }`}
               alt="left-text"
               style={{
-                width: 'auto',
-                height: 'auto',
-                transform: 'none',
-                position: 'absolute',
+                width: "auto",
+                height: "auto",
+                transform: "none",
+                position: "absolute",
                 zIndex: 10,
-                scale: isMobile ? '2' : '1', // 1200px 이하: 0.8, 초과: 1
+                scale: isMobile ? "2" : "1", // 1200px 이하: 0.8, 초과: 1
               }}
             />
           </div>

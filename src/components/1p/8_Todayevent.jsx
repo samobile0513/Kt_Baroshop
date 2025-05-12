@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const desktopImages = [
   { src: "/B4p/b4_1.svg", alt: "b_71", link: "/1_Special" },
@@ -33,9 +33,9 @@ const EventSection = () => {
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const images = isMobile ? mobileImages : desktopImages;
@@ -46,13 +46,13 @@ const EventSection = () => {
         className="w-[820px] flex flex-col items-center"
         style={{
           zoom: scale,
-          paddingTop: '100px',
-          paddingBottom: '100px',
+          paddingTop: "100px",
+          paddingBottom: "100px",
         }}
       >
         {/* 타이틀 */}
         <img src="/B1p/B_text71.svg" alt="오늘의 이벤트" />
-        <div style={{ height: '98px' }} />
+        <div style={{ height: "98px" }} />
 
         {/* 이미지 카드 3개 */}
         {images.map((item, index) => (
@@ -61,9 +61,9 @@ const EventSection = () => {
               src={item.src}
               alt={item.alt}
               onClick={() => navigate(item.link)}
-              className="cursor-pointer rounded-[8px] transition-all duration-300 ease-in-out animate-breathe hover:scale-[1.05] hover:brightness-105 hover:shadow-xl"
+              className="cursor-pointer rounded-[8px] transition-all duration-300" 
             />
-            <div style={{ height: index === 2 ? '70px' : '30px' }} />
+            <div style={{ height: index === 2 ? "70px" : "30px" }} />
           </React.Fragment>
         ))}
 
@@ -71,8 +71,8 @@ const EventSection = () => {
         <img
           src="/B1p/b_74.svg"
           alt="b_74"
-          onClick={() => navigate('/2_Surveyform')}
-          className="cursor-pointer rounded-[8px] transition-all duration-300 ease-in-out animate-breathe hover:scale-[1.05] hover:brightness-105 hover:shadow-xl"
+          onClick={() => navigate("/2_Surveyform")}
+          className="cursor-pointer rounded-[8px] transition-all duration-300" 
         />
       </div>
     </div>

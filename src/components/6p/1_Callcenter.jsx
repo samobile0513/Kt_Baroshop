@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 
 const Callcenter = () => {
   const [scale, setScale] = useState(1);
@@ -16,9 +16,9 @@ const Callcenter = () => {
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -43,16 +43,16 @@ const Callcenter = () => {
     <div
       className="w-full flex flex-col items-center pt-[0px]"
       style={{
-        height: sectionHeight ? `${sectionHeight}px` : 'auto',
-        overflow: 'hidden',
+        height: sectionHeight ? `${sectionHeight}px` : "auto",
+        overflow: "hidden",
       }}
     >
       <div
         ref={contentRef}
         style={{
           transform: `scale(${scale})`,
-          transformOrigin: 'top center',
-          width: 'fit-content',
+          transformOrigin: "top center",
+          width: "fit-content",
         }}
       >
         <Link to="/center1">

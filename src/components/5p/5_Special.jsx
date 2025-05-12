@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom'; // Link 임포트
-
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom"; // Link 임포트
 
 const CharacterSection = () => {
   const [scale, setScale] = useState(1);
   const contentRef = useRef(null);
-  const [adjustedHeight, setAdjustedHeight] = useState('auto');
+  const [adjustedHeight, setAdjustedHeight] = useState("auto");
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
@@ -14,9 +13,9 @@ const CharacterSection = () => {
       setScale(width <= 1200 ? 1.4 : 1);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -29,22 +28,25 @@ const CharacterSection = () => {
   }, [scale]);
 
   return (
-    <div className="w-full flex justify-center overflow-x-visible pt-[30px]" style={{ minHeight: adjustedHeight }}>
+    <div
+      className="w-full flex justify-center overflow-x-visible pt-[30px]"
+      style={{ minHeight: adjustedHeight }}
+    >
       <div
         ref={contentRef}
         className="w-[820px] flex flex-col items-center"
         style={{
           zoom: scale,
-          transformOrigin: 'top center',
+          transformOrigin: "top center",
         }}
       >
-          <img src="/B5p/s5.svg" alt="5_1" />
-          <div className="mt-[50px]" />
-          <Link to="/3_Surveyform2">
+        <img src="/B5p/s5.svg" alt="5_1" />
+        <div className="mt-[50px]" />
+        <Link to="/3_Surveyform2">
           <img src="/B1p/b_74.svg" alt="5_2" className="cursor-pointer" />
-         </Link>
-          <div className="mt-[100px]" />
-        </div>
+        </Link>
+        <div className="mt-[100px]" />
+      </div>
     </div>
   );
 };

@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
-const phoneImages = [
-  '/B3p/b3_21.svg',
-  '/B3p/b3_22.svg',
-  '/B3p/b3_23.svg',
-];
+const phoneImages = ["/B3p/b3_21.svg", "/B3p/b3_22.svg", "/B3p/b3_23.svg"];
 
 const PopularModels = () => {
   const [scale, setScale] = useState(1);
@@ -17,16 +13,16 @@ const PopularModels = () => {
       setScale(width <= 1200 ? 1 : 1);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
     <div className="w-full flex justify-center">
       <div
         style={{
-          width: '820px',
+          width: "820px",
           zoom: scale,
         }}
       >
@@ -36,16 +32,18 @@ const PopularModels = () => {
             <img
               src="/B3p/B3_2title.svg"
               className={`absolute ${
-                isMobile ? 'left-[70px] top-[-60px]' : 'left-[-145px] top-[-30px]'
+                isMobile
+                  ? "left-[70px] top-[-60px]"
+                  : "left-[-145px] top-[-30px]"
               }`}
               alt="left-text"
               style={{
-                width: 'auto',
-                height: 'auto',
-                transform: 'none',
-                position: 'absolute',
+                width: "auto",
+                height: "auto",
+                transform: "none",
+                position: "absolute",
                 zIndex: 10,
-                scale: isMobile ? '2' : '1', // 1200px 이하: 0.8, 초과: 2
+                scale: isMobile ? "2" : "1", // 1200px 이하: 0.8, 초과: 2
               }}
             />
           </div>

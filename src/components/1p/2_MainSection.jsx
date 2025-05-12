@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const phoneImages = [
-  '/B1p/b_11.svg',
-  '/B1p/b_12.svg',
-  '/B1p/b_13.svg',
-  '/B1p/b_14.svg',
+  "/B1p/b_11.svg",
+  "/B1p/b_12.svg",
+  "/B1p/b_13.svg",
+  "/B1p/b_14.svg",
 ];
 
 const PopularModels = () => {
@@ -20,20 +20,20 @@ const PopularModels = () => {
       setScale(width <= 1200 ? 1.8 : 1);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleClick = () => {
-    navigate('/2_Surveyform');
+    navigate("/2_Surveyform");
   };
 
   return (
     <div className="w-full flex justify-center">
       <div
         style={{
-          width: '820px',
+          width: "820px",
           zoom: scale,
         }}
       >
@@ -43,35 +43,36 @@ const PopularModels = () => {
             <img
               src="/B1p/B_text11.svg"
               className={`absolute ${
-                isMobile ? 'left-[150px] top-[-60px]' : 'left-[-150px] top-[-50px]'
+                isMobile
+                  ? "left-[150px] top-[-60px]"
+                  : "left-[-150px] top-[-50px]"
               }`}
               alt="left-text"
               style={{
-                width: 'auto',
-                height: 'auto',
-                transform: 'none',
-                position: 'absolute',
+                width: "auto",
+                height: "auto",
+                transform: "none",
+                position: "absolute",
                 zIndex: 10,
-                scale: '1.15',
+                scale: "1.15",
               }}
             />
             <img
               src="/B1p/B_text12.svg"
               className={`absolute ${
-                isMobile ? 'right-[120px] bottom-[-25px]' : 'right-[-190px] bottom-[-20px]'
-              } transition-all duration-300 cursor-pointer hover:brightness-125`}
+                isMobile
+                  ? "right-[120px] bottom-[-25px]"
+                  : "right-[-190px] bottom-[-20px]"
+              } cursor-pointer`} // transition-all 제거
               alt="right-text"
               style={{
-                width: 'auto',
-                height: 'auto',
-                transform: 'none',
-                position: 'absolute',
+                width: "auto",
+                height: "auto",
+                transform: "none",
+                position: "absolute",
                 zIndex: 10,
-                scale: '1',
-                filter: 'none',
-                boxShadow: '0 0 0 rgba(253, 57, 65, 0)', // #FD3941
-                animation: 'sparkle 1.5s infinite',
-              }}
+                scale: "1",
+              }} // animation, filter, boxShadow 제거
               onClick={handleClick}
             />
           </div>
@@ -95,18 +96,6 @@ const PopularModels = () => {
           <div className="mt-[50px]" />
         </div>
       </div>
-      <style jsx>{`
-        @keyframes sparkle {
-          0%, 100% {
-            filter: brightness(100%);
-            box-shadow: 0 0 0 rgba(253, 57, 65, 0);
-          }
-          50% {
-            filter: brightness(125%);
-            box-shadow: 0 0 10px rgba(253, 57, 65, 0.7);
-          }
-        }
-      `}</style>
     </div>
   );
 };

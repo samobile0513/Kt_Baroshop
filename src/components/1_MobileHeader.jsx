@@ -1,17 +1,20 @@
-import React from 'react';
+import React from "react";
 
 const Header = ({ scale = 1 }) => {
   return (
-    <div className="w-full bg-[#EFEFEF] flex flex-col items-center justify-center" style={{ height: `${62 * scale}px` }}>
+    <div
+      className="w-full bg-[#EFEFEF] flex flex-col items-center justify-center"
+      style={{ height: `${62 * scale}px` }}
+    >
       {/* 첫 줄 텍스트 */}
       <span
-      style={{
-        fontFamily: 'font-4',             // ✅ 변경됨
-        fontSize: `${9 * scale}px`,
-        lineHeight: `${18 * scale}px`,
-      }}
-      className="text-[#3e3e3e]"
-    >
+        style={{
+          fontFamily: "font-4", // ✅ 변경됨
+          fontSize: `${9 * scale}px`,
+          lineHeight: `${18 * scale}px`,
+        }}
+        className="text-[#3e3e3e]"
+      >
         기업을 운영하는 사람이라면 필수! 세금감면의 지름길
       </span>
 
@@ -19,7 +22,7 @@ const Header = ({ scale = 1 }) => {
       <div className="flex items-center gap-[6px] mt-[2px]">
         <span
           style={{
-            fontFamily: 'Paperlogy-7Bold',
+            fontFamily: "Paperlogy-7Bold",
             fontSize: `${16 * scale}px`,
             lineHeight: `${20 * scale}px`,
           }}

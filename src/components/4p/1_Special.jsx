@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const desktopImages = [
   { src: "/B4p/b4_1.svg", alt: "3_1", link: "/1_Special" },
@@ -36,9 +36,9 @@ const RelatedEmploymentSection = () => {
       }
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const images = isMobile ? mobileImages : desktopImages;
@@ -47,15 +47,19 @@ const RelatedEmploymentSection = () => {
     <div className="w-full flex justify-center bg-white overflow-hidden">
       <div
         className="flex flex-col items-center"
-        style={isMobile ? { 
-          width: '820px',
-          zoom: scale,
-          paddingTop: '0px',
-          paddingBottom: '0px',
-        } : { 
-          width: '100%',
-          paddingTop: '0px',
-        }}
+        style={
+          isMobile
+            ? {
+                width: "820px",
+                zoom: scale,
+                paddingTop: "0px",
+                paddingBottom: "0px",
+              }
+            : {
+                width: "100%",
+                paddingTop: "0px",
+              }
+        }
       >
         {images.map((item, index) => (
           <React.Fragment key={index}>
@@ -65,7 +69,11 @@ const RelatedEmploymentSection = () => {
                   <img
                     src={item.src}
                     alt={item.alt}
-                    className={isMobile ? "cursor-pointer" : "min-w-[1920px] h-[500px] object-cover cursor-pointer"}
+                    className={
+                      isMobile
+                        ? "cursor-pointer"
+                        : "min-w-[1920px] h-[500px] object-cover cursor-pointer"
+                    }
                   />
                 </Link>
               </div>
@@ -74,11 +82,17 @@ const RelatedEmploymentSection = () => {
                 <img
                   src={item.src}
                   alt={item.alt}
-                  className={isMobile ? "cursor-pointer" : "cursor-pointer w-auto h-auto"}
+                  className={
+                    isMobile ? "cursor-pointer" : "cursor-pointer w-auto h-auto"
+                  }
                 />
               </Link>
             )}
-            <div style={{ height: isMobile ? '3px' : (index === 0 ? '０px' : '0px') }} />
+            <div
+              style={{
+                height: isMobile ? "3px" : index === 0 ? "０px" : "0px",
+              }}
+            />
           </React.Fragment>
         ))}
       </div>

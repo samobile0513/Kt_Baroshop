@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import ConsultPopup from './other/ConsultPopup.jsx';
+import React, { useState } from "react";
+import ConsultPopup from "./other/ConsultPopup.jsx";
 
 const StopBanner3 = () => {
   const [showConsultPopup, setShowConsultPopup] = useState(false);
@@ -16,13 +16,15 @@ const StopBanner3 = () => {
   return (
     <>
       {/* 버튼 영역 */}
-      <div
-        className="fixed bottom-[20px] right-[20px] flex flex-col gap-[14px] z-50"
-      >
+      <div className="fixed bottom-[20px] right-[20px] flex flex-col gap-[14px] z-50">
         <a href="tel:1551-1531">
           <img src="/stopm1.svg" alt="전화" className="w-[50px] h-[50px]" />
         </a>
-        <a href="http://pf.kakao.com/_DWxdsn" target="_blank" rel="noopener noreferrer">
+        <a
+          href="http://pf.kakao.com/_DWxdsn"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img src="/stopm2.svg" alt="카카오톡" className="w-[50px] h-[50px]" />
         </a>
         <button onClick={() => setShowConsultPopup(true)}>
