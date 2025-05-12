@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const phoneImages = [
-  "/B1p/b_31.svg",
-  "/B1p/b_32.svg",
-  "/B1p/b_33.svg",
-  "/B1p/b_34.svg",
+  { src: "/B1p/b_31.png", link: "/5m" },
+  { src: "/B1p/b_32.png", link: "/6m" },
+  { src: "/B1p/b_33.png", link: "/7m" },
+  { src: "/B1p/b_34.png", link: "/8m" },
 ];
 
 const PopularModels = () => {
@@ -67,7 +67,7 @@ const PopularModels = () => {
                 isMobile
                   ? "right-[120px] bottom-[-25px]"
                   : "right-[-190px] bottom-[-20px]"
-              } cursor-pointer`} // transition-all duration-300 제거
+              } cursor-pointer`}
               alt="right-text"
               style={{
                 width: "auto",
@@ -76,7 +76,7 @@ const PopularModels = () => {
                 position: "absolute",
                 zIndex: 10,
                 scale: "1",
-              }} // boxShadow, filter, animation 제거
+              }}
               onClick={handleClick}
             />
           </div>
@@ -84,14 +84,18 @@ const PopularModels = () => {
           {/* 휴대폰 이미지 */}
           {isMobile ? (
             <div className="grid grid-cols-2 gap-x-[20px] gap-y-[30px]">
-              {phoneImages.map((src, i) => (
-                <img key={i} src={src} alt={`phone-${i}`} />
+              {phoneImages.map((item, i) => (
+                <Link key={i} to={item.link}>
+                  <img src={item.src} alt={`phone-${i}`} />
+                </Link>
               ))}
             </div>
           ) : (
             <div className="flex gap-[17px] justify-center">
-              {phoneImages.map((src, i) => (
-                <img key={i} src={src} alt={`phone-${i}`} />
+              {phoneImages.map((item, i) => (
+                <Link key={i} to={item.link}>
+                  <img src={item.src} alt={`phone-${i}`} />
+                </Link>
               ))}
             </div>
           )}

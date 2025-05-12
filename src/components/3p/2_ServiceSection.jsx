@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-const phoneImages = ["/B3p/b3_21.svg", "/B3p/b3_22.svg", "/B3p/b3_23.svg"];
+const phoneImages = [
+  { src: "/B3p/b3_21.png", link: "/1d" },
+  { src: "/B3p/b3_22.png", link: "/2d" },
+  { src: "/B3p/b3_23.png", link: "/3d" },
+];
 
 const PopularModels = () => {
   const [scale, setScale] = useState(1);
@@ -43,15 +48,17 @@ const PopularModels = () => {
                 transform: "none",
                 position: "absolute",
                 zIndex: 10,
-                scale: isMobile ? "2" : "1", // 1200px 이하: 0.8, 초과: 2
+                scale: isMobile ? "2" : "1",
               }}
             />
           </div>
 
           {/* 휴대폰 이미지 */}
           <div className="flex gap-[17px] justify-center">
-            {phoneImages.map((src, i) => (
-              <img key={i} src={src} alt={`phone-${i}`} />
+            {phoneImages.map((item, i) => (
+              <Link key={i} to={item.link} style={{ display: "contents" }}>
+                <img src={item.src} alt={`phone-${i}`} />
+              </Link>
             ))}
           </div>
 

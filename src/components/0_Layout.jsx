@@ -7,6 +7,7 @@ import MobileHeader from "../components/1_MobileHeader";
 import MobileNavMenu from "../components/2_MobileNavMenu";
 import StopBanner from "../components/4_StopBanner";
 import StopBanner2 from "../components/5_StopBanner2";
+import Loading from "./other/Loading";
 
 export const ScaleContext = createContext();
 
@@ -75,6 +76,7 @@ const Layout = () => {
   const [mobileScale, setMobileScale] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
   const [isMobileNav, setIsMobileNav] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
   const [contentHeight, setContentHeight] = useState(null);
   const { pathname } = useLocation();
   const scrollContainerRef = useRef();
@@ -119,6 +121,17 @@ const Layout = () => {
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  // 로딩 로직 추가
+  useEffect(() => {
+    if (isMobile) {
+      setIsLoading(true);
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isMobile]);
 
   useEffect(() => {
     const updateContentHeight = () => {
@@ -193,7 +206,7 @@ const Layout = () => {
               }}
             >
               <div>
-                <OutletWrapper />
+                {isMobile && isLoading ? <Loading /> : <OutletWrapper />}
               </div>
             </div>
           </div>

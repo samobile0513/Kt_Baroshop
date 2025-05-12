@@ -29,7 +29,7 @@ const MainImage = () => {
   }, []);
 
   const handleClick = () => {
-    navigate("/3_Surveyform2");
+    navigate("/center4");
   };
 
   return (
@@ -44,7 +44,7 @@ const MainImage = () => {
         }}
       >
         <img
-          src={isMobile ? "/B2p/b_1m.svg" : "/B2p/b_1.svg"}
+          src={isMobile ? "/B6p/center4m.png" : "/B2p/b_1.png"}
           alt="2페이지 메인 이미지"
           onClick={handleClick}
           className="object-cover cursor-pointer"

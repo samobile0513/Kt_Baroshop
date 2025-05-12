@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const desktopImages = [
-  { src: "/B4p/b4_4.svg", alt: "b_74", link: "/4_Special" },
-  { src: "/B4p/b4_5.svg", alt: "b_75", link: "/5_Special" },
+  { src: "/B4p/b4_4.png", alt: "b_74", link: "/4_Special" },
+  { src: "/B4p/b4_5.png", alt: "b_75", link: "/5_Special" },
 ];
 
 const mobileImages = [
-  { src: "/B4p/b4_4m.svg", alt: "b_74", link: "/4_Special" },
-  { src: "/B4p/b4_5m.svg", alt: "b_75", link: "/5_Special" },
+  { src: "/B4p/b4_4m.png", alt: "b_74", link: "/4_Special" },
+  { src: "/B4p/b4_5m.png", alt: "b_75", link: "/5_Special" },
 ];
 
 const EventSection = () => {

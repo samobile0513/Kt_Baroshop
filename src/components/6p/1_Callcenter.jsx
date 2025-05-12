@@ -1,16 +1,34 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+const desktopImages = [
+  { src: "/B6p/center1.png", alt: "3_1", link: "/center1" },
+  { src: "/B6p/center2.png", alt: "3_1", link: "/center2" },
+  { src: "/B6p/center3.png", alt: "3_1", link: "/center3" },
+  { src: "/B6p/center4.png", alt: "3_1", link: "/center4" },
+];
+
+const mobileImages = [
+  { src: "/B6p/center1m.png", alt: "3_1", link: "/center1" },
+  { src: "/B6p/center2m.png", alt: "3_1", link: "/center2" },
+  { src: "/B6p/center3m.png", alt: "3_1", link: "/center3" },
+  { src: "/B6p/center4m.png", alt: "3_1", link: "/center4" },
+];
 
 const Callcenter = () => {
   const [scale, setScale] = useState(1);
-  const [sectionHeight, setSectionHeight] = useState(null);
-  const contentRef = useRef();
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      const screenWidth = window.innerWidth;
-      if (screenWidth <= 1200) {
-        setScale(2);
+      const width = window.innerWidth;
+      setIsMobile(width <= 500);
+      if (width <= 500) {
+        if (width >= 100 && width <= 393) {
+          setScale(2.2);
+        } else {
+          setScale(Math.min((width / 393) * 2.2, 2.2));
+        }
       } else {
         setScale(1);
       }
@@ -21,56 +39,60 @@ const Callcenter = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    const updateHeight = () => {
-      if (contentRef.current) {
-        const rawHeight = contentRef.current.scrollHeight;
-        const scaledHeight = rawHeight * scale;
-        setSectionHeight(scaledHeight);
-      }
-    };
-
-    const resizeObserver = new ResizeObserver(updateHeight);
-    if (contentRef.current) resizeObserver.observe(contentRef.current);
-    setTimeout(updateHeight, 50);
-
-    return () => {
-      if (contentRef.current) resizeObserver.unobserve(contentRef.current);
-    };
-  }, [scale]);
+  const images = isMobile ? mobileImages : desktopImages;
 
   return (
-    <div
-      className="w-full flex flex-col items-center pt-[0px]"
-      style={{
-        height: sectionHeight ? `${sectionHeight}px` : "auto",
-        overflow: "hidden",
-      }}
-    >
+    <div className="w-full flex justify-center bg-white overflow-hidden">
       <div
-        ref={contentRef}
-        style={{
-          transform: `scale(${scale})`,
-          transformOrigin: "top center",
-          width: "fit-content",
-        }}
+        className="flex flex-col items-center"
+        style={
+          isMobile
+            ? {
+                width: "820px",
+                zoom: scale,
+                paddingTop: "0px",
+                paddingBottom: "0px",
+              }
+            : {
+                width: "100%",
+                paddingTop: "0px",
+              }
+        }
       >
-        <Link to="/center1">
-          <img src="/B6p/center1.svg" alt="3_1" />
-        </Link>
-        <div className="mt-[3px]" />
-        <Link to="/center2">
-          <img src="/B6p/center2.svg" alt="3_1" />
-        </Link>
-        <div className="mt-[3px]" />
-        <Link to="/center3">
-          <img src="/B6p/center3.svg" alt="3_1" />
-        </Link>
-        <div className="mt-[3px]" />
-        <Link to="/center4">
-          <img src="/B6p/center4.svg" alt="3_1" />
-        </Link>
-        <div className="mt-[150px]" />
+        {images.map((item, index) => (
+          <React.Fragment key={index}>
+            {item.isMain ? (
+              <div className="w-full overflow-hidden">
+                <Link to={item.link}>
+                  <img
+                    src={item.src}
+                    alt={item.alt}
+                    className={
+                      isMobile
+                        ? "cursor-pointer"
+                        : "min-w-[1920px] h-[500px] object-cover cursor-pointer"
+                    }
+                  />
+                </Link>
+              </div>
+            ) : (
+              <Link to={item.link}>
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  className={
+                    isMobile ? "cursor-pointer" : "cursor-pointer w-auto h-auto"
+                  }
+                />
+              </Link>
+            )}
+            <div
+              style={{
+                height: isMobile ? "3px" : index === 0 ? "０px" : "0px",
+              }}
+            />
+          </React.Fragment>
+        ))}
       </div>
     </div>
   );

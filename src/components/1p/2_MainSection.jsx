@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const phoneImages = [
-  "/B1p/b_11.svg",
-  "/B1p/b_12.svg",
-  "/B1p/b_13.svg",
-  "/B1p/b_14.svg",
+  { src: "/B1p/b_11.png", link: "/1m" },
+  { src: "/B1p/b_12.png", link: "/2m" },
+  { src: "/B1p/b_13.png", link: "/3m" },
+  { src: "/B1p/b_14.png", link: "/4m" },
 ];
 
 const PopularModels = () => {
@@ -63,7 +63,7 @@ const PopularModels = () => {
                 isMobile
                   ? "right-[120px] bottom-[-25px]"
                   : "right-[-190px] bottom-[-20px]"
-              } cursor-pointer`} // transition-all 제거
+              } cursor-pointer`}
               alt="right-text"
               style={{
                 width: "auto",
@@ -72,7 +72,7 @@ const PopularModels = () => {
                 position: "absolute",
                 zIndex: 10,
                 scale: "1",
-              }} // animation, filter, boxShadow 제거
+              }}
               onClick={handleClick}
             />
           </div>
@@ -80,14 +80,18 @@ const PopularModels = () => {
           {/* 휴대폰 이미지 */}
           {isMobile ? (
             <div className="grid grid-cols-2 gap-x-[20px] gap-y-[30px]">
-              {phoneImages.map((src, i) => (
-                <img key={i} src={src} alt={`phone-${i}`} />
+              {phoneImages.map((item, i) => (
+                <Link key={i} to={item.link}>
+                  <img src={item.src} alt={`phone-${i}`} />
+                </Link>
               ))}
             </div>
           ) : (
             <div className="flex gap-[17px] justify-center">
-              {phoneImages.map((src, i) => (
-                <img key={i} src={src} alt={`phone-${i}`} />
+              {phoneImages.map((item, i) => (
+                <Link key={i} to={item.link}>
+                  <img src={item.src} alt={`phone-${i}`} />
+                </Link>
               ))}
             </div>
           )}

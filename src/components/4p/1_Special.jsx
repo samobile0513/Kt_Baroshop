@@ -2,19 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const desktopImages = [
-  { src: "/B4p/b4_1.svg", alt: "3_1", link: "/1_Special" },
-  { src: "/B4p/b4_2.svg", alt: "3_1", link: "/2_Special" },
-  { src: "/B4p/b4_3.svg", alt: "3_1", link: "/3_Special" },
-  { src: "/B4p/b4_4.svg", alt: "3_1", link: "/4_Special" },
-  { src: "/B4p/b4_5.svg", alt: "3_1", link: "/5_Special" },
+  { src: "/B4p/b4_1.png", alt: "3_1", link: "/1_Special" },
+  { src: "/B4p/b4_2.png", alt: "3_1", link: "/2_Special" },
+  { src: "/B4p/b4_3.png", alt: "3_1", link: "/3_Special" },
+  { src: "/B4p/b4_4.png", alt: "3_1", link: "/4_Special" },
+  { src: "/B4p/b4_5.png", alt: "3_1", link: "/5_Special" },
 ];
 
 const mobileImages = [
-  { src: "/B4p/b4_1m.svg", alt: "3_1", link: "/1_Special" },
-  { src: "/B4p/b4_2m.svg", alt: "3_1", link: "/2_Special" },
-  { src: "/B4p/b4_3m.svg", alt: "3_1", link: "/3_Special" },
-  { src: "/B4p/b4_4m.svg", alt: "3_1", link: "/4_Special" },
-  { src: "/B4p/b4_5m.svg", alt: "3_1", link: "/5_Special" },
+  { src: "/B4p/b4_1m.png", alt: "3_1", link: "/1_Special" },
+  { src: "/B4p/b4_2m.png", alt: "3_1", link: "/2_Special" },
+  { src: "/B4p/b4_3m.png", alt: "3_1", link: "/3_Special" },
+  { src: "/B4p/b4_4m.png", alt: "3_1", link: "/4_Special" },
+  { src: "/B4p/b4_5m.png", alt: "3_1", link: "/5_Special" },
 ];
 
 const RelatedEmploymentSection = () => {

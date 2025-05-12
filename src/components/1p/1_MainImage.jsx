@@ -2,15 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const desktopImages = [
-  { src: "/B4p/b4_1.svg", link: "/1_Special" },
-  { src: "/B4p/b4_2.svg", link: "/2_Special" },
-  { src: "/B4p/b4_3.svg", link: "/3_Special" },
+  { src: "/B4p/b4_1.png", link: "/1_Special" },
+  { src: "/B4p/b4_2.png", link: "/2_Special" },
+  { src: "/B4p/b4_3.png", link: "/3_Special" },
 ];
 
 const mobileImages = [
-  { src: "/B4p/b4_1m.svg", link: "/1_Special" },
-  { src: "/B4p/b4_2m.svg", link: "/2_Special" },
-  { src: "/B4p/b4_3m.svg", link: "/3_Special" },
+  { src: "/B4p/b4_1m.png", link: "/1_Special" },
+  { src: "/B4p/b4_2m.png", link: "/2_Special" },
+  { src: "/B4p/b4_3m.png", link: "/3_Special" },
 ];
 
 const MainImageSlider = () => {

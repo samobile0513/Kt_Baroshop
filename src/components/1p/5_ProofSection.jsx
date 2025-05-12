@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const phoneImages = [
-  "/B1p/b_41.svg",
-  "/B1p/b_42.svg",
-  "/B1p/b_43.svg",
-  "/B1p/b_44.svg",
+  { src: "/B1p/b_41.png", link: "/9m" },
+  { src: "/B1p/b_42.png", link: "/10m" },
+  { src: "/B1p/b_43.png", link: "/11m" },
+  { src: "/B1p/b_44.png", link: "/12m" },
 ];
 
 const additionalPhoneImages = [
-  "/B1p/b_45.svg",
-  "/B1p/b_46.svg",
-  "/B1p/b_47.svg",
-  "/B1p/b_48.svg",
+  { src: "/B1p/b_45.png", link: "/13m" },
+  { src: "/B1p/b_46.png", link: "/14m" },
+  { src: "/B1p/b_47.png", link: "/15m" },
+  { src: "/B1p/b_48.png", link: "/16m" },
 ];
 
 const PopularModels = () => {
@@ -70,7 +70,7 @@ const PopularModels = () => {
                 isMobile
                   ? "right-[120px] bottom-[-25px]"
                   : "right-[-190px] bottom-[-20px]"
-              } cursor-pointer`} // transition-all duration-300 제거
+              } cursor-pointer`}
               alt="right-text"
               style={{
                 width: "auto",
@@ -79,7 +79,7 @@ const PopularModels = () => {
                 position: "absolute",
                 zIndex: 10,
                 scale: "1",
-              }} // boxShadow, filter, animation 제거
+              }}
               onClick={handleClick}
             />
           </div>
@@ -87,14 +87,18 @@ const PopularModels = () => {
           {/* 기존 휴대폰 이미지 */}
           {isMobile ? (
             <div className="grid grid-cols-2 gap-x-[20px] gap-y-[30px]">
-              {phoneImages.map((src, i) => (
-                <img key={i} src={src} alt={`phone-${i}`} />
+              {phoneImages.map((item, i) => (
+                <Link key={i} to={item.link}>
+                  <img src={item.src} alt={`phone-${i}`} />
+                </Link>
               ))}
             </div>
           ) : (
             <div className="flex gap-[17px] justify-center">
-              {phoneImages.map((src, i) => (
-                <img key={i} src={src} alt={`phone-${i}`} />
+              {phoneImages.map((item, i) => (
+                <Link key={i} to={item.link}>
+                  <img src={item.src} alt={`phone-${i}`} />
+                </Link>
               ))}
             </div>
           )}
@@ -105,14 +109,18 @@ const PopularModels = () => {
           {/* 추가 휴대폰 이미지 */}
           {isMobile ? (
             <div className="grid grid-cols-2 gap-x-[20px] gap-y-[30px]">
-              {additionalPhoneImages.map((src, i) => (
-                <img key={i + 15} src={src} alt={`phone-${i + 15}`} />
+              {additionalPhoneImages.map((item, i) => (
+                <Link key={i + 15} to={item.link}>
+                  <img src={item.src} alt={`phone-${i + 15}`} />
+                </Link>
               ))}
             </div>
           ) : (
             <div className="flex gap-[17px] justify-center">
-              {additionalPhoneImages.map((src, i) => (
-                <img key={i + 15} src={src} alt={`phone-${i + 15}`} />
+              {additionalPhoneImages.map((item, i) => (
+                <Link key={i + 15} to={item.link}>
+                  <img src={item.src} alt={`phone-${i + 15}`} />
+                </Link>
               ))}
             </div>
           )}

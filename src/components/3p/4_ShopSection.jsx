@@ -1,8 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-const phoneImagesSet1 = ["/B3p/b3_41.svg", "/B3p/b3_42.svg", "/B3p/b3_43.svg"];
+const phoneImagesSet1 = [
+  { src: "/B3p/b3_41.png", link: "/4d" },
+  { src: "/B3p/b3_42.png", link: "/5d" },
+  { src: "/B3p/b3_43.png", link: "/6d" },
+];
 
-const phoneImagesSet2 = ["/B3p/b3_44.svg", "/B3p/b3_45.svg", "/B3p/b3_46.svg"];
+const phoneImagesSet2 = [
+  { src: "/B3p/b3_44.png", link: "/7d" },
+  { src: "/B3p/b3_45.png", link: "/8d" },
+  { src: "/B3p/b3_46.png", link: "/9d" },
+];
 
 const PopularModels = () => {
   const [scale, setScale] = useState(1);
@@ -45,15 +54,17 @@ const PopularModels = () => {
                 transform: "none",
                 position: "absolute",
                 zIndex: 10,
-                scale: isMobile ? "1.7" : "1", // 1200px 이하: 0.8, 초과: 1
+                scale: isMobile ? "1.7" : "1",
               }}
             />
           </div>
 
           {/* 첫 번째 세트: 휴대폰 이미지 */}
           <div className="flex gap-[17px] justify-center">
-            {phoneImagesSet1.map((src, i) => (
-              <img key={i} src={src} alt={`phone-${i}`} />
+            {phoneImagesSet1.map((item, i) => (
+              <Link key={i} to={item.link} style={{ display: "contents" }}>
+                <img src={item.src} alt={`phone-${i}`} />
+              </Link>
             ))}
           </div>
 
@@ -76,15 +87,17 @@ const PopularModels = () => {
                 transform: "none",
                 position: "absolute",
                 zIndex: 10,
-                scale: isMobile ? "2" : "1", // 1200px 이하: 0.8, 초과: 1
+                scale: isMobile ? "2" : "1",
               }}
             />
           </div>
 
           {/* 두 번째 세트: 휴대폰 이미지 */}
           <div className="flex gap-[17px] justify-center">
-            {phoneImagesSet2.map((src, i) => (
-              <img key={i + 3} src={src} alt={`phone-${i + 3}`} />
+            {phoneImagesSet2.map((item, i) => (
+              <Link key={i + 3} to={item.link} style={{ display: "contents" }}>
+                <img src={item.src} alt={`phone-${i + 3}`} />
+              </Link>
             ))}
           </div>
 
