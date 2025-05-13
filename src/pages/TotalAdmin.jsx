@@ -83,7 +83,7 @@ const TotalAdmin = () => {
       const data = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
-        confirmed: doc.data().confirmed ?? false, // 기본값 false
+        confirmed: doc.data().confirmed ?? false,
       }));
       console.log("📦 [fetchData] 불러온 데이터:", data);
       setSubmissions(
@@ -96,17 +96,19 @@ const TotalAdmin = () => {
   };
 
   const handleConfirmChange = async (id, confirmed) => {
+    console.log(`✅ [handleConfirmChange] ID: ${id}, 확인여부: ${confirmed}`);
     try {
-      console.log(`✅ [handleConfirmChange] ID ${id} 확인여부 업데이트: ${confirmed}`);
       const docRef = doc(db, "submissions", id);
       await updateDoc(docRef, { confirmed });
       setSubmissions((prev) =>
-        prev.map((s) => (s.id === id ? { ...s, confirmed } : s))
+        prev.map((s) =>
+          s.id === id ? { ...s, confirmed } : s
+        )
       );
       console.log(`✅ [handleConfirmChange] ID ${id} 업데이트 성공`);
     } catch (err) {
       console.error("❌ [handleConfirmChange] 업데이트 실패:", err.message);
-      setError(`확인여부 업데이트 실패: ${err.message}`);
+      alert(`확인여부 업데이트 실패: ${err.message}`);
     }
   };
 
