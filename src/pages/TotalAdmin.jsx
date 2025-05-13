@@ -6,6 +6,7 @@ import {
   collection,
   getDocs,
   deleteDoc,
+  updateDoc,
 } from "firebase/firestore";
 import { db, auth, storage } from "../../firebase";
 import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
@@ -16,7 +17,7 @@ const TotalAdmin = () => {
   const [submissions, setSubmissions] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
   const [sortOrder, setSortOrder] = useState("desc");
-  const [selectedTab, setSelectedTab] = useState("phone");
+  const [selectedTab, setSelectedTab] = useState("fit");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -26,11 +27,6 @@ const TotalAdmin = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [changeError, setChangeError] = useState("");
-  const [category, setCategory] = useState("B1p"); // 기본 카테고리 변경
-  const [files, setFiles] = useState(null);
-  const [uploadStatus, setUploadStatus] = useState("");
-  const [folders, setFolders] = useState([]);
-  const [uploadedPhotos, setUploadedPhotos] = useState([]);
 
   const ENCRYPTION_KEY = "my-secret-key-9807161223";
 
@@ -78,56 +74,7 @@ const TotalAdmin = () => {
         fetchData();
       }
     }
-
-    const loadPhotos = async () => {
-      try {
-        const storagePhotos = await loadStoragePhotos();
-        setUploadedPhotos(storagePhotos);
-
-        // 폴더 목록 생성 (루트폴더 제거)
-        const folderSet = new Set(storagePhotos.map((photo) => photo.category));
-        const folderArray = [...folderSet];
-        setFolders(folderArray);
-        if (folderArray.length > 0 && !folderArray.includes(category)) {
-          setCategory(folderArray[0]); // 첫 번째 카테고리로 기본 설정
-        }
-      } catch (err) {
-        console.error("사진 목록 가져오기 실패:", err);
-        setUploadStatus("사진 목록을 불러오지 못했습니다.");
-      }
-    };
-
-    loadPhotos();
   }, []);
-
-  const loadStoragePhotos = async () => {
-    try {
-      const storageRef = ref(storage, "baroshop");
-      const listResult = await listAll(storageRef);
-      const photos = [];
-
-      // 폴더별로 순차적으로 로드
-      for (const folderRef of listResult.prefixes) {
-        const folderName = folderRef.name; // 예: B1p
-        const folderList = await listAll(folderRef);
-        for (const itemRef of folderList.items) {
-          const url = await getDownloadURL(itemRef);
-          photos.push({
-            category: folderName,
-            fileName: itemRef.name,
-            url: url,
-          });
-        }
-        // 폴더 하나 로드할 때마다 상태 업데이트
-        setUploadedPhotos([...photos]);
-      }
-
-      return photos;
-    } catch (err) {
-      console.error("Storage 사진 목록 가져오기 실패:", err);
-      return [];
-    }
-  };
 
   const fetchData = async () => {
     console.log("✅ [fetchData] Firestore 데이터 불러오는 중...");
@@ -136,6 +83,7 @@ const TotalAdmin = () => {
       const data = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
+        confirmed: doc.data().confirmed ?? false, // 기본값 false
       }));
       console.log("📦 [fetchData] 불러온 데이터:", data);
       setSubmissions(
@@ -144,6 +92,21 @@ const TotalAdmin = () => {
     } catch (err) {
       console.error("❌ [fetchData] 에러 발생:", err);
       setError("데이터를 불러오지 못했습니다.");
+    }
+  };
+
+  const handleConfirmChange = async (id, confirmed) => {
+    try {
+      console.log(`✅ [handleConfirmChange] ID ${id} 확인여부 업데이트: ${confirmed}`);
+      const docRef = doc(db, "submissions", id);
+      await updateDoc(docRef, { confirmed });
+      setSubmissions((prev) =>
+        prev.map((s) => (s.id === id ? { ...s, confirmed } : s))
+      );
+      console.log(`✅ [handleConfirmChange] ID ${id} 업데이트 성공`);
+    } catch (err) {
+      console.error("❌ [handleConfirmChange] 업데이트 실패:", err.message);
+      setError(`확인여부 업데이트 실패: ${err.message}`);
     }
   };
 
@@ -282,11 +245,22 @@ const TotalAdmin = () => {
 
   const handleDeleteSelected = async () => {
     if (!window.confirm("선택된 항목을 삭제할까요?")) return;
-    await Promise.all(
-      selectedIds.map((id) => deleteDoc(doc(db, "submissions", id)))
-    );
-    setSelectedIds([]);
-    fetchData();
+    try {
+      console.log("🗑️ [handleDeleteSelected] 삭제 시도:", selectedIds);
+      await Promise.all(
+        selectedIds.map(async (id) => {
+          const docRef = doc(db, "submissions", id);
+          await deleteDoc(docRef);
+          console.log(`✅ [handleDeleteSelected] ID ${id} 삭제 성공`);
+        })
+      );
+      setSelectedIds([]);
+      await fetchData();
+      console.log("✅ [handleDeleteSelected] 데이터 갱신 완료");
+    } catch (err) {
+      console.error("❌ [handleDeleteSelected] 삭제 실패:", err.message);
+      setError(`삭제 중 오류 발생: ${err.message}`);
+    }
   };
 
   const handleExport = () => {
@@ -307,6 +281,7 @@ const TotalAdmin = () => {
         기타요청: s.additional,
         선택1_마케팅동의: s.agreements?.marketing ? "Y" : "N",
         선택2_개인정보제3자: s.agreements?.thirdParty ? "Y" : "N",
+        확인여부: s.confirmed ? "Y" : "N",
         신청일시: new Date(s.timestamp).toLocaleString("ko-KR"),
       }));
       const worksheet = XLSX.utils.json_to_sheet(exportData);
@@ -323,6 +298,7 @@ const TotalAdmin = () => {
         기타요청: s.additional,
         선택1_마케팅동의: s.agreements?.marketing ? "Y" : "N",
         선택2_개인정보제3자: s.agreements?.thirdParty ? "Y" : "N",
+        확인여부: s.confirmed ? "Y" : "N",
         신청일시: new Date(s.timestamp).toLocaleString("ko-KR"),
       }));
       const worksheet = XLSX.utils.json_to_sheet(exportData);
@@ -338,6 +314,7 @@ const TotalAdmin = () => {
         사업자or개인: s.businessType,
         기타요청: s.additional,
         선택1_마케팅동의: s.agreements?.marketing ? "Y" : "N",
+        확인여부: s.confirmed ? "Y" : "N",
         신청일시: new Date(s.timestamp).toLocaleString("ko-KR"),
       }));
       const worksheet = XLSX.utils.json_to_sheet(exportData);
@@ -356,38 +333,6 @@ const TotalAdmin = () => {
     });
     setSubmissions(sorted);
     setSortOrder(newOrder);
-  };
-
-  const handleFileReplace = async (fileName) => {
-    if (!files || files.length === 0) {
-      setUploadStatus("파일을 선택해주세요.");
-      return;
-    }
-
-    setUploadStatus("교체 중...");
-    try {
-      const file = files[0];
-      const storagePath = `baroshop/${category}/${fileName}`; // 루트폴더 조건 제거
-      const storageRef = ref(storage, storagePath);
-
-      const metadata = {
-        adminId: username,
-        cacheControl: "public, max-age=0, no-cache",
-      };
-      await uploadBytes(storageRef, file, metadata);
-
-      const downloadURL = await getDownloadURL(storageRef);
-
-      setUploadStatus("교체 완료!");
-      setFiles(null);
-
-      // 최신 사진 목록 갱신
-      const storagePhotos = await loadStoragePhotos();
-      setUploadedPhotos(storagePhotos);
-    } catch (err) {
-      console.error("파일 교체 실패:", err);
-      setUploadStatus(`교체 실패: ${err.message}`);
-    }
   };
 
   const filteredSubmissions = submissions.filter((s) => s.type === selectedTab);
@@ -540,6 +485,16 @@ const TotalAdmin = () => {
 
       <div className="flex gap-2 mb-4">
         <button
+          onClick={() => setSelectedTab("fit")}
+          className={`px-4 py-2 rounded ${
+            selectedTab === "fit"
+              ? "bg-blue-500 text-white"
+              : "bg-gray-200 text-gray-700"
+          } hover:bg-blue-600 hover:text-white transition`}
+        >
+          어울림
+        </button>
+        <button
           onClick={() => setSelectedTab("phone")}
           className={`px-4 py-2 rounded ${
             selectedTab === "phone"
@@ -559,317 +514,225 @@ const TotalAdmin = () => {
         >
           인터넷
         </button>
+      </div>
+
+      <div className="flex gap-2 mb-4">
         <button
-          onClick={() => setSelectedTab("fit")}
-          className={`px-4 py-2 rounded ${
-            selectedTab === "fit"
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200 text-gray-700"
-          } hover:bg-blue-600 hover:text-white transition`}
+          onClick={toggleSelectAll}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
         >
-          어울림
+          모두선택
         </button>
         <button
-          onClick={() => setSelectedTab("photos")}
-          className={`px-4 py-2 rounded ${
-            selectedTab === "photos"
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200 text-gray-700"
-          } hover:bg-blue-600 hover:text-white transition`}
+          onClick={handleDeleteSelected}
+          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
         >
-          사진관리
+          모두삭제
+        </button>
+        <button
+          onClick={handleExport}
+          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
+        >
+          엑셀 저장
+        </button>
+        <button
+          onClick={handleSort}
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
+        >
+          {sortOrder === "desc" ? "내림차순" : "오름차순"}
         </button>
       </div>
 
-      {selectedTab === "photos" ? (
-        <div className="mb-6">
-          <div className="flex flex-wrap gap-2 mb-4">
-            {folders.map((folder) => (
-              <button
-                key={folder}
-                onClick={() => setCategory(folder)}
-                className={`px-4 py-2 rounded ${
-                  category === folder
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-gray-700"
-                } hover:bg-blue-600 hover:text-white transition`}
-              >
-                {folder}
-              </button>
-            ))}
-          </div>
-
-          <div className="mb-6">
-            <h3 className="text-xl font-bold mb-2">사진 목록</h3>
-            <div className="grid grid-cols-3 gap-4">
-              {uploadedPhotos
-                .filter((photo) => photo.category === category)
-                .map((photo) => (
-                  <div
-                    key={`${photo.category}_${photo.fileName}`}
-                    className="border p-2 rounded"
-                  >
-                    <img
-                      src={photo.url}
-                      alt={photo.fileName}
-                      className="w-full h-32 object-fill" // object-cover → object-fill
-                    />
-                    <p className="text-center font-[Paperlogy]">
-                      {photo.fileName}
-                    </p>
-                    <input
-                      type="file"
-                      accept=".svg"
-                      onChange={(e) => setFiles(e.target.files)}
-                      className="w-full border p-1 rounded-md font-[Paperlogy] mt-2"
-                    />
-                    <button
-                      onClick={() => handleFileReplace(photo.fileName)}
-                      className="w-full bg-blue-500 text-white py-1 rounded-md font-[Paperlogy] text-[14px] hover:bg-blue-600 transition mt-2"
-                    >
-                      교체
-                    </button>
-                  </div>
-                )) || <p className="text-gray-500">사진이 없습니다.</p>}
-            </div>
-          </div>
-          {uploadStatus && (
-            <p className="text-red-500 font-[Paperlogy] text-[14px] mt-2">
-              {uploadStatus}
-            </p>
-          )}
-        </div>
-      ) : (
-        <>
-          <div className="flex gap-2 mb-4">
-            <button
-              onClick={toggleSelectAll}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-            >
-              모두선택
-            </button>
-            <button
-              onClick={handleDeleteSelected}
-              className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition"
-            >
-              모두삭제
-            </button>
-            <button
-              onClick={handleExport}
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition"
-            >
-              엑셀 저장
-            </button>
-            <button
-              onClick={handleSort}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
-            >
-              {sortOrder === "desc" ? "내림차순" : "오름차순"}
-            </button>
-          </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full border text-sm shadow-lg rounded-lg">
-              <thead>
-                <tr className="bg-gray-100">
+      <div className="overflow-x-auto">
+        <table className="w-full border text-sm shadow-lg rounded-lg">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                선택
+              </th>
+              {selectedTab === "phone" && (
+                <>
                   <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                    선택
+                    이름
                   </th>
-                  {selectedTab === "phone" && (
-                    <>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        이름
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        연락처
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        생년월일
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        단말기
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        가입유형
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        결제
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        할인
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        요청사항
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        선택1
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        선택2
-                      </th>
-                      <th className="p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        날짜
-                      </th>
-                    </>
-                  )}
-                  {selectedTab === "internet" && (
-                    <>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        이름
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        연락처
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        생년월일
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        가입유형
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        사은품종류
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        요청사항
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        선택1
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        선택2
-                      </th>
-                      <th className="p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        날짜
-                      </th>
-                    </>
-                  )}
-                  {selectedTab === "fit" && (
-                    <>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        회사명
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        담당자명
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        연락처
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        카테고리
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        사업자or개인
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        요청사항
-                      </th>
-                      <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        선택1
-                      </th>
-                      <th className="p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
-                        날짜
-                      </th>
-                    </>
-                  )}
-                </tr>
-              </thead>
-              <tbody>
-                {filteredSubmissions.map((s) => (
-                  <tr key={s.id} className="border-t hover:bg-gray-50">
-                    <td className="border-r p-3 text-center">
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    연락처
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    생년월일
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    단말기
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    가입유형
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    결제
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    할인
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    요청사항
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    선택1
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    선택2
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    날짜
+                  </th>
+                  <th className="p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    확인여부
+                  </th>
+                </>
+              )}
+              {selectedTab === "internet" && (
+                <>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    이름
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    연락처
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    생년월일
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    가입유형
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    사은품종류
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    요청사항
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    선택1
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    선택2
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    날짜
+                  </th>
+                  <th className="p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    확인여부
+                  </th>
+                </>
+              )}
+              {selectedTab === "fit" && (
+                <>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    회사명
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    담당자명
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    연락처
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    카테고리
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    사업자or개인
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    요청사항
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    선택1
+                  </th>
+                  <th className="border-r p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    날짜
+                  </th>
+                  <th className="p-3 text-center text-gray-700 font-[Paperlogy] font-semibold">
+                    확인여부
+                  </th>
+                </>
+              )}
+            </tr>
+          </thead>
+          <tbody>
+            {filteredSubmissions.map((s) => (
+              <tr key={s.id} className="border-t hover:bg-gray-50">
+                <td className="border-r p-3 text-center">
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.includes(s.id)}
+                    onChange={() => toggleSelect(s.id)}
+                  />
+                </td>
+                {selectedTab === "phone" && (
+                  <>
+                    <td className="border-r p-3 text-center">{s.name}</td>
+                    <td className="border-r p-3 text-center">{s.phone}</td>
+                    <td className="border-r p-3 text-center">{s.birth}</td>
+                    <td className="border-r p-3 text-center">{s.device}</td>
+                    <td className="border-r p-3 text-center">{s.joinType}</td>
+                    <td className="border-r p-3 text-center">{s.paymentPeriod}</td>
+                    <td className="border-r p-3 text-center">{s.discountType}</td>
+                    <td className="border-r p-3 text-center">{s.additional}</td>
+                    <td className="border-r p-3 text-center">{s.agreements?.marketing ? "Y" : "-"}</td>
+                    <td className="border-r p-3 text-center">{s.agreements?.thirdParty ? "Y" : "-"}</td>
+                    <td className="border-r p-3 text-center">{new Date(s.timestamp).toLocaleString("ko-KR")}</td>
+                    <td className="p-3 text-center">
                       <input
                         type="checkbox"
-                        checked={selectedIds.includes(s.id)}
-                        onChange={() => toggleSelect(s.id)}
+                        checked={s.confirmed}
+                        onChange={(e) => handleConfirmChange(s.id, e.target.checked)}
                       />
                     </td>
-                    {selectedTab === "phone" && (
-                      <>
-                        <td className="border-r p-3 text-center">{s.name}</td>
-                        <td className="border-r p-3 text-center">{s.phone}</td>
-                        <td className="border-r p-3 text-center">{s.birth}</td>
-                        <td className="border-r p-3 text-center">{s.device}</td>
-                        <td className="border-r p-3 text-center">
-                          {s.joinType}
-                        </td>
-                        <td className="border-r p-3 text-center">
-                          {s.paymentPeriod}
-                        </td>
-                        <td className="border-r p-3 text-center">
-                          {s.discountType}
-                        </td>
-                        <td className="border-r p-3 text-center">
-                          {s.additional}
-                        </td>
-                        <td className="border-r p-3 text-center">
-                          {s.agreements?.marketing ? "Y" : "-"}
-                        </td>
-                        <td className="border-r p-3 text-center">
-                          {s.agreements?.thirdParty ? "Y" : "-"}
-                        </td>
-                        <td className="p-3 text-center">
-                          {new Date(s.timestamp).toLocaleString("ko-KR")}
-                        </td>
-                      </>
-                    )}
-                    {selectedTab === "internet" && (
-                      <>
-                        <td className="border-r p-3 text-center">{s.name}</td>
-                        <td className="border-r p-3 text-center">{s.phone}</td>
-                        <td className="border-r p-3 text-center">{s.birth}</td>
-                        <td className="border-r p-3 text-center">
-                          {s.joinType}
-                        </td>
-                        <td className="border-r p-3 text-center">
-                          {s.giftType}
-                        </td>
-                        <td className="border-r p-3 text-center">
-                          {s.additional}
-                        </td>
-                        <td className="border-r p-3 text-center">
-                          {s.agreements?.marketing ? "Y" : "-"}
-                        </td>
-                        <td className="border-r p-3 text-center">
-                          {s.agreements?.thirdParty ? "Y" : "-"}
-                        </td>
-                        <td className="p-3 text-center">
-                          {new Date(s.timestamp).toLocaleString("ko-KR")}
-                        </td>
-                      </>
-                    )}
-                    {selectedTab === "fit" && (
-                      <>
-                        <td className="border-r p-3 text-center">
-                          {s.company}
-                        </td>
-                        <td className="border-r p-3 text-center">
-                          {s.manager}
-                        </td>
-                        <td className="border-r p-3 text-center">{s.phone}</td>
-                        <td className="border-r p-3 text-center">
-                          {s.category}
-                        </td>
-                        <td className="border-r p-3 text-center">
-                          {s.businessType}
-                        </td>
-                        <td className="border-r p-3 text-center">
-                          {s.additional}
-                        </td>
-                        <td className="border-r p-3 text-center">
-                          {s.agreements?.marketing ? "Y" : "-"}
-                        </td>
-                        <td className="p-3 text-center">
-                          {new Date(s.timestamp).toLocaleString("ko-KR")}
-                        </td>
-                      </>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </>
-      )}
+                  </>
+                )}
+                {selectedTab === "internet" && (
+                  <>
+                    <td className="border-r p-3 text-center">{s.name}</td>
+                    <td className="border-r p-3 text-center">{s.phone}</td>
+                    <td className="border-r p-3 text-center">{s.birth}</td>
+                    <td className="border-r p-3 text-center">{s.joinType}</td>
+                    <td className="border-r p-3 text-center">{s.giftType}</td>
+                    <td className="border-r p-3 text-center">{s.additional}</td>
+                    <td className="border-r p-3 text-center">{s.agreements?.marketing ? "Y" : "-"}</td>
+                    <td className="border-r p-3 text-center">{s.agreements?.thirdParty ? "Y" : "-"}</td>
+                    <td className="border-r p-3 text-center">{new Date(s.timestamp).toLocaleString("ko-KR")}</td>
+                    <td className="p-3 text-center">
+                      <input
+                        type="checkbox"
+                        checked={s.confirmed}
+                        onChange={(e) => handleConfirmChange(s.id, e.target.checked)}
+                      />
+                    </td>
+                  </>
+                )}
+                {selectedTab === "fit" && (
+                  <>
+                    <td className="border-r p-3 text-center">{s.company}</td>
+                    <td className="border-r p-3 text-center">{s.manager}</td>
+                    <td className="border-r p-3 text-center">{s.phone}</td>
+                    <td className="border-r p-3 text-center">{s.category}</td>
+                    <td className="border-r p-3 text-center">{s.businessType}</td>
+                    <td className="border-r p-3 text-center">{s.additional}</td>
+                    <td className="border-r p-3 text-center">{s.agreements?.marketing ? "Y" : "-"}</td>
+                    <td className="border-r p-3 text-center">{new Date(s.timestamp).toLocaleString("ko-KR")}</td>
+                    <td className="p-3 text-center">
+                      <input
+                        type="checkbox"
+                        checked={s.confirmed}
+                        onChange={(e) => handleConfirmChange(s.id, e.target.checked)}
+                      />
+                    </td>
+                  </>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
