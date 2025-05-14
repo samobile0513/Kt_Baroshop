@@ -14,9 +14,9 @@ const MainImage = () => {
 
       if (mobile) {
         if (width >= 100 && width <= 393) {
-          setScale(2.2);
+          setScale(2.4);
         } else {
-          setScale(Math.min((width / 393) * 2.2, 2.2));
+          setScale(Math.min((width / 393) * 2.4, 2.4));
         }
       } else {
         setScale(1); // ✅ PC에선 scale 적용 안 함

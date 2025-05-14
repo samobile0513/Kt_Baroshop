@@ -30,9 +30,9 @@ const MainImageSlider = () => {
       setIsMobile(width <= 500);
       if (width <= 500) {
         if (width >= 100 && width <= 393) {
-          setScale(2.2); // 100px ~ 393px: scale 고정 2.2
+          setScale(2.4); // 100px ~ 393px: scale 고정 2.2
         } else {
-          setScale(Math.min((width / 393) * 2.2, 2.2)); // 393px ~ 500px: 비율 조정, 최대 2.2
+          setScale(Math.min((width / 393) * 2.4, 2.4)); // 393px ~ 500px: 비율 조정, 최대 2.2
         }
       } else {
         setScale(1); // 500px 초과: scale = 1

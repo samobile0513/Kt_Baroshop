@@ -11,12 +11,11 @@ import Loading from "./other/Loading";
 
 export const ScaleContext = createContext();
 
-// 네비게이션과 헤더를 별도로 관리하는 컴포넌트
 const Navigation = ({ isMobileNav, mobileScale, scrollContainerRef }) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  
-  // 모바일 네비게이션 높이 계산
-  const navHeight = isMobileNav ? 65 : 50; // 모바일: 65px, 데스크탑: 50px
+
+  const navHeight = isMobileNav ? 65 : 50;
+  const headerHeight = isMobileNav ? 52 : 62;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -51,18 +50,28 @@ const Navigation = ({ isMobileNav, mobileScale, scrollContainerRef }) => {
             style={{
               width: "100vw",
               position: "fixed",
-              top: isScrolled ? "0" : "52px",
-              height: `${navHeight}px`, // 명시적 높이 설정
+              top: isScrolled ? "0" : `${headerHeight}px`,
+              height: `${navHeight}px`,
             }}
+            isScrolled={isScrolled}
           />
         </>
       ) : (
         <>
-          {!isScrolled && <Header className="header-container" />}
+          {!isScrolled && (
+            <Header
+              className="header-container"
+              style={{
+                transition: "opacity 0.3s ease",
+                opacity: isScrolled ? 0 : 1,
+              }}
+            />
+          )}
           <NavMenu
+            isScrolled={isScrolled}
             style={{
               position: "fixed",
-              top: isScrolled ? "0" : "62px",
+              top: isScrolled ? "0" : `${headerHeight}px`,
             }}
           />
         </>
@@ -74,9 +83,9 @@ const Navigation = ({ isMobileNav, mobileScale, scrollContainerRef }) => {
 const Layout = () => {
   const [scale, setScale] = useState(1);
   const [mobileScale, setMobileScale] = useState(1);
-  const [isMobile, setIsMobile] = useState(false);
-  const [isMobileNav, setIsMobileNav] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // 로딩 상태 추가
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 1200);
+  const [isMobileNav, setIsMobileNav] = useState(window.innerWidth <= 819);
+  const [isLoading, setIsLoading] = useState(window.innerWidth <= 1200);
   const [contentHeight, setContentHeight] = useState(null);
   const { pathname } = useLocation();
   const scrollContainerRef = useRef();
@@ -84,14 +93,11 @@ const Layout = () => {
   const outletRef = useRef();
   const footerRef = useRef();
 
-  // 모바일 네비게이션 높이 계산
-  const navHeight = isMobileNav ? 65 : 50; // 모바일: 65px, 데스크탑: 50px
-  // 모바일 헤더 높이 계산
-  const headerHeight = isMobileNav ? 52 : 62; // 모바일: 52px, 데스크탑: 62px
-  // 총 패딩 계산
-  const totalPadding = isMobileNav ? headerHeight + navHeight + 11 : 112; // 모바일: 128px, 데스크탑: 112px
-  // 819px ~ 1920px 범위에서 추가 여백 계산
-  const extraPadding = !isMobileNav && window.innerWidth > 819 && window.innerWidth <= 1920 ? 20 : 0;
+  const navHeight = isMobileNav ? 65 : 50;
+  const headerHeight = isMobileNav ? 52 : 62;
+  const totalPadding = isMobileNav ? headerHeight + navHeight + 11 : 112;
+  const extraPadding =
+    !isMobileNav && window.innerWidth > 819 && window.innerWidth <= 1920 ? 20 : 0;
 
   useEffect(() => {
     if (window.__isModalOpen) return;
@@ -101,15 +107,18 @@ const Layout = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const screenWidth = window.innerWidth;
-      if (screenWidth <= 819) {
+      const screenWidth = Math.min(window.innerWidth, window.outerWidth || window.innerWidth);
+      const isMobileUA = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      console.log('Screen width:', screenWidth, 'Is mobile UA:', isMobileUA);
+
+      if (screenWidth <= 819 || isMobileUA) {
         setIsMobileNav(true);
         setMobileScale(screenWidth / 393);
       } else {
         setIsMobileNav(false);
         setMobileScale(1);
       }
-      if (screenWidth <= 1200) {
+      if (screenWidth <= 1200 || isMobileUA) {
         setIsMobile(true);
         setScale(screenWidth / 1200);
       } else {
@@ -117,19 +126,26 @@ const Layout = () => {
         setScale(screenWidth >= 1920 ? screenWidth / 1920 : 1);
       }
     };
-    window.addEventListener("resize", handleResize);
+
     handleResize();
+    window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // 로딩 로직 추가
   useEffect(() => {
     if (isMobile) {
+      console.log('Loading started');
       setIsLoading(true);
       const timer = setTimeout(() => {
+        console.log('Loading ended');
         setIsLoading(false);
       }, 3000);
-      return () => clearTimeout(timer);
+      return () => {
+        console.log('Timer cleared');
+        clearTimeout(timer);
+      };
+    } else {
+      setIsLoading(false);
     }
   }, [isMobile]);
 
@@ -169,11 +185,13 @@ const Layout = () => {
   return (
     <ScaleContext.Provider value={scale}>
       <div className="min-h-screen flex flex-col overflow-hidden">
-        <Navigation
-          isMobileNav={isMobileNav}
-          mobileScale={mobileScale}
-          scrollContainerRef={scrollContainerRef}
-        />
+        {!isLoading && (
+          <Navigation
+            isMobileNav={isMobileNav}
+            mobileScale={mobileScale}
+            scrollContainerRef={scrollContainerRef}
+          />
+        )}
 
         <div
           ref={scrollContainerRef}
@@ -182,7 +200,8 @@ const Layout = () => {
             minHeight: "100vh",
             height: "100vh",
             ...scrollbarHideStyle,
-            paddingTop: `${totalPadding + extraPadding}px`, // 동적 패딩에 추가 여백 적용
+            paddingTop: isLoading ? 0 : `${totalPadding + extraPadding}px`,
+            overflowY: "auto",
           }}
         >
           <div
@@ -205,15 +224,17 @@ const Layout = () => {
                 minHeight: isMobile ? "100%" : "auto",
               }}
             >
-              <div>
-                {isMobile && isLoading ? <Loading /> : <OutletWrapper />}
-              </div>
+              <div>{isMobile && isLoading ? <Loading /> : <OutletWrapper />}</div>
             </div>
           </div>
         </div>
 
-        <StopBanner style={{ zIndex: 60 }} />
-        <StopBanner2 style={{ zIndex: 60 }} />
+        {!isLoading && (
+          <>
+            <StopBanner style={{ zIndex: 60 }} />
+            <StopBanner2 style={{ zIndex: 60 }} />
+          </>
+        )}
 
         <style jsx>{`
           div {
