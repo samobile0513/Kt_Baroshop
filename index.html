@@ -12,20 +12,21 @@
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <link rel="stylesheet" href="/src/index.css" />
+  </head>
 
-    <!-- ✅ 리다이렉트 먼저 처리하고 나머지는 멈춰버림 -->
+  <body>
+    <!-- ✅ 리디렉션 스크립트: 현재 호스트가 cloudtype 아니면 이동 -->
     <script>
-      const redirectUrl = "https://web-baroshop-m66s84vua61720dd.sel4.cloudtype.app/";
-      const isBaroShop = window.location.hostname.includes("baroshop");
-
-      if (isBaroShop) {
-        window.location.replace(redirectUrl);
-        // ✅ 여기서 종료: 아래 React 앱 실행 안 되게 막음
-        throw new Error("Redirecting... stop further script execution");
+      if (
+        window.location.hostname !== "web-baroshop-m66s84vua61720dd.sel4.cloudtype.app"
+      ) {
+        const path = window.location.pathname;
+        const search = window.location.search;
+        window.location.href =
+          "https://web-baroshop-m66s84vua61720dd.sel4.cloudtype.app" + path + search;
       }
     </script>
-  </head>
-  <body>
+
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
