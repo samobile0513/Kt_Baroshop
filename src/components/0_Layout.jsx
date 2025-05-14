@@ -108,7 +108,7 @@ const Layout = () => {
   useEffect(() => {
     const handleResize = () => {
       const screenWidth = Math.min(window.innerWidth, window.outerWidth || window.innerWidth);
-      const isMobileUA = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const isMobileUA = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent); // ✅ 추가
       console.log('Screen width:', screenWidth, 'Is mobile UA:', isMobileUA);
 
       if (screenWidth <= 819 || isMobileUA) {
