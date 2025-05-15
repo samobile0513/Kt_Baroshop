@@ -13,16 +13,22 @@ const Header = () => {
         </span>
 
         {/* 어울림 바로가기 (텍스트 이미지) */}
-        <img
-          src="/B1p/B_headertext.svg"
-          alt="어울림 바로가기"
-          className="h-[24px]"
-        />
+        <a
+          href="https://www.어울림.net"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="/B1p/B_headertext.svg"
+            alt="어울림 바로가기"
+            className="h-[24px] cursor-pointer"
+          />
+        </a>
 
         {/* 로고 이미지 */}
         <img src="/B1p/B_logo.svg" alt="로고" className="h-[24px]" />
 
-        {/* 화살표 아이콘 (SVG) */}
+        {/* 화살표 아이콘 */}
         <img
           src="/B1p/B_arrow.svg"
           alt="화살표"
