@@ -32,12 +32,12 @@ const TotalAdmin = () => {
 
   const ENCRYPTED_USERS = [
     {
-      username: "U2FsdGVkX1+WUzQ3v5Jv5UqTSLiT78mKw3KjrgPHO1E=",
-      password: "U2FsdGVkX19P66/oqea0JSPKcwah6yG8P59h5msAGaA=",
+      username: "U2FsdGVkX19Qz/3Gd6AzdDqtL+uUD/19od49Txjs4AQ=",
+      password: "U2FsdGVkX1/WGHtgt3JJPbOz4mh1do+H9jlB6SZ79yQ=",
     },
     {
-      username: "U2FsdGVkX19CdnBb/QPpKKR7eU9he2i2lJp1UJwRIRM=",
-      password: "U2FsdGVkX194fQRifEFE99Yx50W2N3J4SAWDGgeoC4c=",
+      username: "U2FsdGVkX1/uh17VeSJwRwBTJiZ3oiB0YGgO24HNUw8=",
+      password: "U2FsdGVkX19a7pECs8meIPL97hEkk0T5D/mFM9k64xw=",
     },
   ];
 
