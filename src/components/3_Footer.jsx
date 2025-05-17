@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { ScaleContext } from "./0_Layout";
 import ReactDOM from "react-dom";
+import { Link } from "react-router-dom";
+
 
 const Footer = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -98,8 +100,28 @@ const Footer = () => {
           }}
         >
           <img src="/B_footer.svg" alt="footer-part1" />
-          <div className="mt-[10px]" />
-          <img src="/B_footer1.svg" alt="footer-part2" />
+          <div
+  className="hover:opacity-80 transition-opacity duration-300 cursor-pointer"
+  style={{ transform: "none !important", transition: "opacity 0.3s ease !important" }}
+>
+  <Link
+  to="/callcenter"
+  className="hover:opacity-80 transition-opacity duration-300"
+>
+  <img
+    src="/B_footer1.svg"
+    alt="공지사항"
+    className="cursor-pointer"
+    style={{
+      transform: "none",
+      margin: 0,
+      padding: 0,
+      display: "inline-block",
+    }}
+  />
+</Link>
+</div>
+
           <div className="mt-[20px]" />
           <img src="/B_footer2.svg" alt="footer-part3" />
           <div className="mt-[0px] flex items-center">

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const MobileNavMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   const menus = [
     { name: "휴대폰", path: "/" },
@@ -11,19 +12,22 @@ const MobileNavMenu = () => {
     { name: "특별기획전", path: "/4page" },
   ];
 
+const handleLogoClick = () => {
+  // 현재 페이지 경로를 기준으로 새로고침
+  window.location.href = window.location.pathname;
+};
+
   return (
     <div className="relative">
       {/* 상단 바: 로고 + 햄버거 */}
       <div className="w-full h-[65px] bg-white z-50 flex items-center justify-between border-y border-black">
         <div className="pr-[93px] shrink-0 ml-[20px] min-ml-[20px]">
           <img
-          src="/Mtitle.svg"
-          alt="kt바로샵"
-          className="h-[33px] cursor-pointer"
-          onClick={() => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-        />
+            src="/Mtitle.svg"
+            alt="kt바로샵"
+            className="h-[33px] cursor-pointer"
+            onClick={handleLogoClick}
+          />
         </div>
         <div className="pl-[93px] shrink-0 mr-[20px] min-mr-[16px]">
           <button onClick={() => setIsOpen(true)}>
@@ -35,9 +39,7 @@ const MobileNavMenu = () => {
       {/* 오버레이 */}
       <div
         className={`absolute inset-0 z-40 bg-black bg-opacity-40 transition-opacity duration-300 ${
-          isOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
+          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={() => setIsOpen(false)}
       />
@@ -46,7 +48,7 @@ const MobileNavMenu = () => {
       <nav
         className={`absolute right-0 w-[270px] min-h-[160vh] overflow-y-auto z-50 bg-[#00A9A4] mt-[-65px] px-[24px] pt-[24px] pb-[40px] flex flex-col gap-[22px] transform transition-transform duration-300 border-y border-black ${
           isOpen ? "translate-x-0" : "translate-x-full"
-        }`} // max-h-screen 제거, min-h-[120vh] 추가
+        }`}
       >
         {/* X 버튼 - 오른쪽 상단 고정 */}
         <button
@@ -56,13 +58,10 @@ const MobileNavMenu = () => {
         >
           ×
         </button>
+
         {/* 로고 상단 표시 */}
         <div className="mb-[50px]" style={{ marginTop: "50px" }}>
-          <img
-            src="/Mlogo.svg"
-            alt="kt바로샵"
-            className="h-[35px] ml-auto mr-[30px]"
-          />
+          <img src="/Mlogo.svg" alt="kt바로샵" className="h-[35px] ml-auto mr-[30px]" />
         </div>
 
         {/* 메뉴 항목들 */}

@@ -1,9 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const NavMenu = () => {
   const location = useLocation();
+  const navigate = useNavigate(); // ✅ 추가
   const [activeMenu, setActiveMenu] = useState("");
+
+  const menus = [
+    { name: "휴대폰", path: "/" },
+    { name: "인터넷/TV", path: "/2page" },
+    { name: "디바이스", path: "/3page" },
+    { name: "특별기획전", path: "/4page" },
+  ];
 
   useEffect(() => {
     const currentPath = location.pathname;
@@ -15,20 +23,10 @@ const NavMenu = () => {
     }
   }, [location]);
 
-  const menus = [
-    { name: "휴대폰", path: "/" },
-    { name: "인터넷/TV", path: "/2page" },
-    { name: "디바이스", path: "/3page" },
-    { name: "특별기획전", path: "/4page" },
-  ];
-
-  const handleLogoClick = () => {
-    const scrollContainer = document.querySelector(".flex-1.flex.justify-center.overflow-x-hidden.overflow-y-auto");
-    if (scrollContainer) {
-      scrollContainer.scrollTop = 0; // 강제로 스크롤 맨 위로
-      scrollContainer.scrollTo({ top: 0, behavior: "smooth" }); // 부드러운 스크롤
-    }
-  };
+const handleLogoClick = () => {
+  // 현재 페이지 경로를 기준으로 새로고침
+  window.location.href = window.location.pathname;
+};
 
   return (
     <nav className="w-full bg-white flex justify-center overflow-hidden border-t border-b border-black">
