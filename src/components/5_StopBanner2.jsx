@@ -7,7 +7,7 @@ const StopBanner = () => {
   const [scale, setScale] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
   const [showConsultPopup, setShowConsultPopup] = useState(false);
-  const [isHidden, setIsHidden] = useState(false); // 숨김 상태 추가
+  const [isHidden, setIsHidden] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -15,10 +15,10 @@ const StopBanner = () => {
       if (width <= 1200) {
         const newScale = width / 393;
         setScale(newScale > 1 ? 1 : newScale);
-        setIsHidden(true); // 1200px 이하일 때 숨김
+        setIsHidden(true);
       } else {
         setScale(1);
-        setIsHidden(false); // 1200px 초과일 때 표시
+        setIsHidden(false);
       }
     };
     handleResize();
@@ -51,7 +51,7 @@ const StopBanner = () => {
     setShowConsultPopup(false);
   };
 
-  if (isHidden) return null; // 1200px 이하일 때 렌더링 안 함
+  if (isHidden) return null;
 
   return (
     <>
@@ -71,7 +71,7 @@ const StopBanner = () => {
             <a href="tel:1551-1531">
               <img src="/stop1.svg" alt="전화" className="h-[38px]" />
             </a>
-            <div onClick={handlePopupClick}>
+            <div onClick={handlePopupClick} className="clickable">
               <img src="/stop2.svg" alt="1551-1531" className="h-[38px]" />
             </div>
             <div onClick={handlePopupClick}>
@@ -81,7 +81,7 @@ const StopBanner = () => {
 
           {/* 오른쪽 버튼 영역 */}
           <div className="flex items-center gap-[16px]">
-            <button onClick={handleConsultClick}>
+            <button onClick={handleConsultClick} className="clickable">
               <img src="/stop4.svg" alt="상담신청" className="h-[48px]" />
             </button>
             <a
@@ -91,7 +91,7 @@ const StopBanner = () => {
             >
               <img src="/stop5.svg" alt="카카오톡 상담" className="h-[48px]" />
             </a>
-            <div onClick={handlePopupClick}>
+            <div onClick={handlePopupClick} className="clickable">
               <img src="/stop6.svg" alt="전화 상담" className="h-[48px]" />
             </div>
           </div>

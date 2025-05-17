@@ -6,13 +6,12 @@ const NavMenu = () => {
   const [activeMenu, setActiveMenu] = useState("");
 
   useEffect(() => {
-    // 경로에 따라 활성 메뉴 설정
     const currentPath = location.pathname;
     const menu = menus.find((menu) => menu.path === currentPath);
     if (menu) {
       setActiveMenu(menu.name);
     } else {
-      setActiveMenu(""); // 경로가 메뉴에 없으면 활성 메뉴 초기화
+      setActiveMenu("");
     }
   }, [location]);
 
@@ -23,19 +22,25 @@ const NavMenu = () => {
     { name: "특별기획전", path: "/4page" },
   ];
 
+  const handleLogoClick = () => {
+    const scrollContainer = document.querySelector(".flex-1.flex.justify-center.overflow-x-hidden.overflow-y-auto");
+    if (scrollContainer) {
+      scrollContainer.scrollTop = 0; // 강제로 스크롤 맨 위로
+      scrollContainer.scrollTo({ top: 0, behavior: "smooth" }); // 부드러운 스크롤
+    }
+  };
+
   return (
     <nav className="w-full bg-white flex justify-center overflow-hidden border-t border-b border-black">
       <div className="w-[1920px] h-[65px] flex items-center px-[426px] whitespace-nowrap">
         {/* 로고 */}
         <div className="pr-[93px] shrink-0 ml-[-93px]">
           <img
-          src="/B1p/B_title.svg"
-          alt="kt바로샵"
-          className="h-[30px] object-contain cursor-pointer"
-          onClick={() => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
-        />
+            src="/B1p/B_title.svg"
+            alt="kt바로샵"
+            className="h-[30px] object-contain cursor-pointer"
+            onClick={handleLogoClick}
+          />
         </div>
 
         {/* 메뉴들 */}
@@ -63,7 +68,7 @@ const NavMenu = () => {
         <div className="shrink-0 ml-[50px]">
           <Link
             to="callcenter"
-            className="text-[#3E3E3E] text-[20px]"
+            className="text-[#3E3E3E] text-[20px] hover:text-primary hover:font-bold hover:border-b-2 hover:border-primary"
             style={{ fontFamily: "font-6" }}
           >
             문의하기
@@ -73,7 +78,7 @@ const NavMenu = () => {
 
       <style jsx>{`
         .hover\\:text-primary:hover {
-          color: #fd3941; /* text-primary 색상, 필요 시 조정 */
+          color: #fd3941;
         }
         .hover\\:font-bold:hover {
           font-weight: bold;
@@ -82,10 +87,10 @@ const NavMenu = () => {
           border-bottom-width: 2px;
         }
         .hover\\:border-primary:hover {
-          border-color: #fd3941; /* border-primary 색상, 필요 시 조정 */
+          border-color: #fd3941;
         }
         .text-primary {
-          color: #fd3941; /* 클릭 시 색상 */
+          color: #fd3941;
         }
         .font-bold {
           font-weight: bold;

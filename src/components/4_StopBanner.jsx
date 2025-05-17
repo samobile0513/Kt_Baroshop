@@ -44,14 +44,14 @@ const StopBanner = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="group mb-[20px]"
-              onTouchStart={() => {}} // 모바일 터치 이벤트 지원
+              onTouchStart={() => {}}
             >
               <img src="/stop_banner_1.svg" alt="배너1" />
             </a>
-            <div onClick={handlePopupClick} className="group mb-[20px]">
+            <div onClick={handlePopupClick} className="group mb-[20px] clickable">
               <img src="/stop_banner_2.svg" alt="배너2" />
             </div>
-            <div onClick={handleConsultClick} className="group mb-[20px]">
+            <div onClick={handleConsultClick} className="group mb-[20px] clickable">
               <img src="/stop_banner_3.svg" alt="배너3" />
             </div>
           </div>
