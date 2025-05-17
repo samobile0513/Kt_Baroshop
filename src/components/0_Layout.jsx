@@ -133,21 +133,18 @@ const Layout = () => {
   }, []);
 
   useEffect(() => {
-    if (isMobile) {
-      console.log('Loading started');
-      setIsLoading(true);
-      const timer = setTimeout(() => {
-        console.log('Loading ended');
-        setIsLoading(false);
-      }, 3000);
-      return () => {
-        console.log('Timer cleared');
-        clearTimeout(timer);
-      };
-    } else {
+  const hasLoadedBefore = localStorage.getItem("hasLoadedBefore");
+  if (isMobile && !hasLoadedBefore) {
+    setIsLoading(true);
+    localStorage.setItem("hasLoadedBefore", "true"); // ✅ 최초 1회 표시 후 저장
+    const timer = setTimeout(() => {
       setIsLoading(false);
-    }
-  }, [isMobile]);
+    }, 3000);
+    return () => clearTimeout(timer);
+  } else {
+    setIsLoading(false);
+  }
+}, [isMobile]);
 
   useEffect(() => {
     const updateContentHeight = () => {
