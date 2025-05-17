@@ -25,16 +25,17 @@ const NavMenu = () => {
 
   return (
     <nav className="w-full bg-white flex justify-center overflow-hidden border-t border-b border-black">
-      <div className="w-[1920px] h-[95px] flex items-center px-[426px] whitespace-nowrap">
+      <div className="w-[1920px] h-[65px] flex items-center px-[426px] whitespace-nowrap">
         {/* 로고 */}
         <div className="pr-[93px] shrink-0 ml-[-93px]">
-          <Link to="/">
-            <img
-              src="/B1p/B_title.svg"
-              alt="kt바로샵"
-              className="h-[30px] object-contain"
-            />
-          </Link>
+          <img
+          src="/B1p/B_title.svg"
+          alt="kt바로샵"
+          className="h-[30px] object-contain cursor-pointer"
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        />
         </div>
 
         {/* 메뉴들 */}
@@ -62,7 +63,7 @@ const NavMenu = () => {
         <div className="shrink-0 ml-[50px]">
           <Link
             to="callcenter"
-            className="text-[#3E3E3E] text-[13px]"
+            className="text-[#3E3E3E] text-[20px]"
             style={{ fontFamily: "font-6" }}
           >
             문의하기

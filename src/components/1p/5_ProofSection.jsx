@@ -64,24 +64,7 @@ const PopularModels = () => {
                 scale: "1.17",
               }}
             />
-            <img
-              src="/B1p/B_text12.svg"
-              className={`absolute ${
-                isMobile
-                  ? "right-[120px] bottom-[-25px]"
-                  : "right-[-190px] bottom-[-20px]"
-              } cursor-pointer`}
-              alt="right-text"
-              style={{
-                width: "auto",
-                height: "auto",
-                transform: "none",
-                position: "absolute",
-                zIndex: 10,
-                scale: "1",
-              }}
-              onClick={handleClick}
-            />
+
           </div>
 
           {/* 기존 휴대폰 이미지 */}

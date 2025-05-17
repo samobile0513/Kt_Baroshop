@@ -320,56 +320,71 @@ const PhoneSurvey = () => {
               )}
             </div>
 
-            <div className="flex flex-col gap-2 mb-6">
-              <button
-                type="button"
-                onClick={() => handleSelect("discountType", "단말할인")}
-                className={`w-full border p-4 font-[font-4] rounded-md flex justify-between items-center ${
-                  form.discountType === "단말할인"
-                    ? "border-[#FD3941]"
-                    : "border-black"
-                }`}
-              >
-                <span
-                  className={`text-[22px] font-bold ${
-                    form.discountType === "단말할인"
-                      ? "text-[#FD3941]"
-                      : "text-black"
-                  }`}
-                >
-                  단말할인
-                </span>
-                <span className="text-[18px] text-black font-[font-4] whitespace-nowrap">
-                  공시지원금(기기값 즉시할인)
-                </span>
-              </button>
+<p className="font-[font-4] mb-2">
+  할인방법(요금/단말)을 선택해 주세요.
+</p>
+<div className="flex flex-col gap-2 mb-6">
+  {/* 단말할인 */}
+  <button
+    type="button"
+    onClick={() => handleSelect("discountType", "단말할인")}
+    className={`w-full border p-4 font-[font-4] rounded-md flex justify-between items-start ${
+      form.discountType === "단말할인" ? "border-[#FD3941]" : "border-black"
+    }`}
+  >
+    {/* 왼쪽 타이틀 */}
+    <span
+      className={`text-[25px] font-bold ${
+        form.discountType === "단말할인" ? "text-[#FD3941]" : "text-black"
+      }`}
+    >
+      단말할인
+    </span>
 
-              <button
-                type="button"
-                onClick={() => handleSelect("discountType", "요금할인")}
-                className={`w-full border p-4 font-[font-4] rounded-md flex justify-between items-center ${
-                  form.discountType === "요금할인"
-                    ? "border-[#FD3941]"
-                    : "border-black"
-                }`}
-              >
-                <span
-                  className={`text-[22px] font-bold flex items-center ${
-                    form.discountType === "요금할인"
-                      ? "text-[#FD3941]"
-                      : "text-black"
-                  }`}
-                >
-                  요금할인
-                  <span className="ml-1 bg-[#FD3941] text-white px-2 py-[2px] rounded-full text-[12px] font-[font-4]">
-                    추천
-                  </span>
-                </span>
-                <span className="text-[18px] text-black font-[font-4] whitespace-nowrap">
-                  24개월간 매월 요금 25% 할인
-                </span>
-              </button>
-            </div>
+    {/* 오른쪽 설명 + 할인 */}
+    <div className="flex flex-col items-end leading-tight">
+      <span className="text-[15px] text-black font-[font-4] whitespace-nowrap">
+        공시지원금(기기값 즉시할인)
+      </span>
+      <span className="text-[16px] text-[#FD3941] font-[font-6] font-bold mt-0">
+        특별할인 250,000원
+      </span>
+    </div>
+  </button>
+
+  {/* 요금할인 */}
+  <button
+    type="button"
+    onClick={() => handleSelect("discountType", "요금할인")}
+    className={`w-full border p-4 font-[font-4] rounded-md flex justify-between items-start ${
+      form.discountType === "요금할인" ? "border-[#FD3941]" : "border-black"
+    }`}
+  >
+    {/* 왼쪽 타이틀 + 추천 뱃지 */}
+    <span
+      className={`text-[25px] font-bold flex items-center ${
+        form.discountType === "요금할인" ? "text-[#FD3941]" : "text-black"
+      }`}
+    >
+      요금할인
+      <span className="ml-1 bg-[#FD3941] text-white px-2 py-[2px] rounded-full text-[11px] font-[font-4]">
+        추천
+      </span>
+    </span>
+
+    {/* 오른쪽 설명 + 할인 */}
+    <div className="flex flex-col items-end leading-tight">
+      <span className="text-[15px] text-black font-[font-4] whitespace-nowrap">
+        24개월간 매월 요금 25% 할인
+      </span>
+      <span className="text-[16px] text-[#FD3941] font-[font-6] font-bold mt-0">
+        특별할인 250,000원
+      </span>
+    </div>
+  </button>
+</div>
+
+
 
             <div className="mb-6">
               <label className="block font-[font-4] text-[26px] mb-2">

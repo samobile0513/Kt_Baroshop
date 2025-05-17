@@ -16,9 +16,14 @@ const MobileNavMenu = () => {
       {/* 상단 바: 로고 + 햄버거 */}
       <div className="w-full h-[65px] bg-white z-50 flex items-center justify-between border-y border-black">
         <div className="pr-[93px] shrink-0 ml-[20px] min-ml-[20px]">
-          <Link to="/">
-            <img src="/Mtitle.svg" alt="kt바로샵" className="h-[33px]" />
-          </Link>
+          <img
+          src="/Mtitle.svg"
+          alt="kt바로샵"
+          className="h-[33px] cursor-pointer"
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        />
         </div>
         <div className="pl-[93px] shrink-0 mr-[20px] min-mr-[16px]">
           <button onClick={() => setIsOpen(true)}>

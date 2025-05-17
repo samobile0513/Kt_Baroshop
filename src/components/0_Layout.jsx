@@ -14,7 +14,7 @@ export const ScaleContext = createContext();
 const Navigation = ({ isMobileNav, mobileScale, scrollContainerRef }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
-  const navHeight = isMobileNav ? 65 : 50;
+  const navHeight = isMobileNav ? 65 : 52;
   const headerHeight = isMobileNav ? 52 : 62;
 
   useEffect(() => {
@@ -95,7 +95,7 @@ const Layout = () => {
 
   const navHeight = isMobileNav ? 65 : 50;
   const headerHeight = isMobileNav ? 52 : 62;
-  const totalPadding = isMobileNav ? headerHeight + navHeight + 11 : 112;
+  const totalPadding = isMobileNav ? headerHeight + navHeight + 11 : 108;
   const extraPadding =
     !isMobileNav && window.innerWidth > 819 && window.innerWidth <= 1920 ? 20 : 0;
 

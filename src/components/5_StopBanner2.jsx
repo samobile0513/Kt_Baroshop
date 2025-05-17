@@ -60,7 +60,7 @@ const StopBanner = () => {
         style={{
           transform: `scale(${scale})`,
           transformOrigin: "bottom center",
-          height: `${120 * scale}px`,
+          height: `${80 * scale}px`,
           backgroundColor: "rgba(0, 0, 0, 0.65)",
           overflow: "hidden",
         }}

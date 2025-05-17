@@ -222,57 +222,63 @@ const MobilePhoneSurvey = ({
             </div>
           </div>
 
-          <div className="mb-[150px]">
-            <p className="text-[72px] mb-4 text-center">
-              할인방법 (요금/단말)을
-              <br />
-              선택해 주세요.
-            </p>
-            <div className="space-y-8">
-              <button
-                onClick={() => handleSelect("discountType", "단말할인")}
-                className={`w-full border p-12 rounded-md text-center ${
+        <div className="mb-[150px]">
+          <p className="text-[72px] mb-4 text-center">
+            할인방법 (요금/단말)을
+            <br />
+            선택해 주세요.
+          </p>
+          <div className="space-y-8">
+            <button
+              onClick={() => handleSelect("discountType", "단말할인")}
+              className={`w-full border p-12 rounded-md text-center ${
+                isActive("discountType", "단말할인")
+                  ? "border-[#FD3941]"
+                  : "border-black"
+              }`}
+            >
+              <div
+                className={`text-[88px] font-bold ${
                   isActive("discountType", "단말할인")
-                    ? "border-[#FD3941]"
-                    : "border-black"
+                    ? "text-[#FD3941]"
+                    : "text-black"
                 }`}
               >
-                <div
-                  className={`text-[88px] font-bold ${
-                    isActive("discountType", "단말할인")
-                      ? "text-[#FD3941]"
-                      : "text-black"
-                  }`}
-                >
-                  단말할인
-                </div>
-                <div className="text-[50px]">공시지원금(기기값 즉시할인)</div>
-              </button>
+                단말할인
+              </div>
+              <div className="text-[50px]">공시지원금(기기값 즉시할인)</div>
+              <div className="text-[50px] text-[#FD3941] font-[font-6] mt-0">
+                특별할인 250,000원
+              </div>
+            </button>
 
-              <button
-                onClick={() => handleSelect("discountType", "요금할인")}
-                className={`w-full border p-12 rounded-md text-center ${
+            <button
+              onClick={() => handleSelect("discountType", "요금할인")}
+              className={`w-full border p-12 rounded-md text-center ${
+                isActive("discountType", "요금할인")
+                  ? "border-[#FD3941]"
+                  : "border-black"
+              }`}
+            >
+              <div
+                className={`text-[88px] font-bold flex justify-center items-center ${
                   isActive("discountType", "요금할인")
-                    ? "border-[#FD3941]"
-                    : "border-black"
+                    ? "text-[#FD3941]"
+                    : "text-black"
                 }`}
               >
-                <div
-                  className={`text-[88px] font-bold flex justify-center items-center ${
-                    isActive("discountType", "요금할인")
-                      ? "text-[#FD3941]"
-                      : "text-black"
-                  }`}
-                >
-                  요금할인
-                  <span className="ml-4 bg-[#FD3941] text-white px-4 py-[2px] rounded-full text-[48px]">
-                    추천
-                  </span>
-                </div>
-                <div className="text-[50px]">24개월간 매월 요금 25% 할인</div>
-              </button>
-            </div>
+                요금할인
+                <span className="ml-4 bg-[#FD3941] text-white px-4 py-[2px] rounded-full text-[48px]">
+                  추천
+                </span>
+              </div>
+              <div className="text-[50px]">24개월간 매월 요금 25% 할인</div>
+              <div className="text-[50px] text-[#FD3941] font-[font-6] mt-0">
+                특별할인 250,000원
+              </div>
+            </button>
           </div>
+        </div>
 
           <div className="mb-[50px]">
             <h3 className="text-[80px] font-[font-7] mb-4 text-center">

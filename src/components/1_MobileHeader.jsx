@@ -9,7 +9,7 @@ const Header = ({ scale = 1 }) => {
       {/* 첫 줄 텍스트 */}
       <span
         style={{
-          fontFamily: "font-4", // ✅ 변경됨
+          fontFamily: "font-4",
           fontSize: `${9 * scale}px`,
           lineHeight: `${18 * scale}px`,
         }}
@@ -19,10 +19,15 @@ const Header = ({ scale = 1 }) => {
       </span>
 
       {/* 둘째 줄: 어울림 바로가기 + 로고 + 화살표 */}
-      <div className="flex items-center gap-[6px] mt-[2px]">
+      <a
+        href="https://www.어울림.net"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-[6px] mt-[2px] cursor-pointer"
+      >
         <span
           style={{
-            fontFamily: "Paperlogy-7Bold",
+            fontFamily: "font-7",
             fontSize: `${16 * scale}px`,
             lineHeight: `${20 * scale}px`,
           }}
@@ -41,7 +46,7 @@ const Header = ({ scale = 1 }) => {
           alt="화살표"
           style={{ width: `${14 * scale}px`, height: `${14 * scale}px` }}
         />
-      </div>
+      </a>
     </div>
   );
 };
