@@ -69,7 +69,7 @@ const handleLogoClick = () => {
             className="text-[#3E3E3E] text-[20px] hover:text-primary hover:font-bold hover:border-b-2 hover:border-primary"
             style={{ fontFamily: "font-6" }}
           >
-            문의하기
+            공지사항
           </Link>
         </div>
       </div>

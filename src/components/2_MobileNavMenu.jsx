@@ -80,10 +80,10 @@ const handleLogoClick = () => {
         <Link
           to="/callcenter"
           onClick={() => setIsOpen(false)}
-          className="text-white text-[19px] mt-[20px]"
+          className="text-white text-[26px] mt-[20px]"
           style={{ fontFamily: "font-6" }}
         >
-          문의하기
+          공지사항
         </Link>
       </nav>
     </div>
