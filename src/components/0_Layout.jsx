@@ -18,21 +18,33 @@ const Navigation = ({ isMobileNav, mobileScale, scrollContainerRef }) => {
   const headerHeight = isMobileNav ? 52 : 62;
 
   useEffect(() => {
+    let timeoutId = null;
+    
     const handleScroll = () => {
-      if (scrollContainerRef.current) {
-        setIsScrolled(scrollContainerRef.current.scrollTop > 0);
+      if (timeoutId) {
+        return;
       }
+      
+      timeoutId = setTimeout(() => {
+        const scrollTop = 
+          scrollContainerRef.current?.scrollTop ?? window.scrollY;
+        setIsScrolled(scrollTop > 0);
+        timeoutId = null;
+      }, 16);
     };
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.addEventListener("scroll", handleScroll);
-    }
+
+    const scrollElement = isMobileNav && scrollContainerRef.current 
+      ? scrollContainerRef.current 
+      : window;
+    
+    scrollElement.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+
     return () => {
-      if (container) {
-        container.removeEventListener("scroll", handleScroll);
-      }
+      if (timeoutId) clearTimeout(timeoutId);
+      scrollElement.removeEventListener("scroll", handleScroll);
     };
-  }, [scrollContainerRef]);
+  }, [scrollContainerRef, isMobileNav]);
 
   return (
     <div className="fixed top-0 left-0 w-full" style={{ zIndex: 50 }}>
@@ -102,34 +114,51 @@ const Layout = () => {
   useEffect(() => {
     if (window.__isModalOpen) return;
     if (pathname.includes("surveyform")) return;
-    if (scrollContainerRef.current) scrollContainerRef.current.scrollTop = 0;
+    
+    if (scrollContainerRef.current) {
+      requestAnimationFrame(() => {
+        scrollContainerRef.current.scrollTop = 0;
+      });
+    }
   }, [pathname]);
 
   useEffect(() => {
+    let resizeTimeout = null;
+    
     const handleResize = () => {
-      const screenWidth = Math.min(window.innerWidth, window.outerWidth || window.innerWidth);
-      const isMobileUA = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      console.log('Screen width:', screenWidth, 'Is mobile UA:', isMobileUA);
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+      }
+      
+      resizeTimeout = setTimeout(() => {
+        const screenWidth = Math.min(window.innerWidth, window.outerWidth || window.innerWidth);
+        const isMobileUA = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        console.log('Screen width:', screenWidth, 'Is mobile UA:', isMobileUA);
 
-      if (screenWidth <= 819 || isMobileUA) {
-        setIsMobileNav(true);
-        setMobileScale(screenWidth / 393);
-      } else {
-        setIsMobileNav(false);
-        setMobileScale(1);
-      }
-      if (screenWidth <= 1200 || isMobileUA) {
-        setIsMobile(true);
-        setScale(screenWidth / 1200);
-      } else {
-        setIsMobile(false);
-        setScale(screenWidth >= 1920 ? screenWidth / 1920 : 1);
-      }
+        if (screenWidth <= 819 || isMobileUA) {
+          setIsMobileNav(true);
+          setMobileScale(screenWidth / 393);
+        } else {
+          setIsMobileNav(false);
+          setMobileScale(1);
+        }
+        if (screenWidth <= 1200 || isMobileUA) {
+          setIsMobile(true);
+          setScale(screenWidth / 1200);
+        } else {
+          setIsMobile(false);
+          setScale(screenWidth >= 1920 ? screenWidth / 1920 : 1);
+        }
+      }, 100);
     };
-
-    handleResize();
+    
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    handleResize();
+    
+    return () => {
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   useEffect(() => {
@@ -147,46 +176,78 @@ const Layout = () => {
   }, [isMobile]);
 
   useEffect(() => {
-    const updateContentHeight = () => {
-      let totalHeight = 0;
-      if (outletRef.current)
-        totalHeight += outletRef.current.getBoundingClientRect().height;
-      if (footerRef.current)
-        totalHeight += footerRef.current.getBoundingClientRect().height;
-      if (pathname === "/") {
-        setContentHeight(totalHeight * 0.125); // HomePage
-      } else if (pathname === "/2page") {
-        setContentHeight(totalHeight * 0.236); // 2page
-      } else if (pathname === "/3page") {
-        setContentHeight(totalHeight * 0.242); // 3page
-      } else if (pathname === "/4page") {
-        setContentHeight(totalHeight * 0.265); // 4page
-      } else {
-        setContentHeight(totalHeight + 100); // 원본 유지
-      }
+    // 페이지별 contentHeight 보정값 설정
+    const pageAdjustments = {
+      "/": 0.225,      // HomePage
+      "/2page": 0.236, // 2page
+      "/3page": 0.242, // 3page
+      "/4page": 0.265, // 4page
     };
-    const resizeObserver = new ResizeObserver(updateContentHeight);
+
+    const updateContentHeight = () => {
+      requestAnimationFrame(() => {
+        if (!outletRef.current) return;
+        
+        let totalHeight = 0;
+        totalHeight += outletRef.current.getBoundingClientRect().height;
+        
+        if (footerRef.current) {
+          totalHeight += footerRef.current.getBoundingClientRect().height;
+        }
+        
+        const screenWidth = window.innerWidth;
+        let extraSpace = 50;
+        
+        if (screenWidth > 2560) {
+          extraSpace = 10;
+        } else if (screenWidth > 1920) {
+          extraSpace = 20;
+        }
+        
+        if (totalHeight < window.innerHeight) {
+          setContentHeight("100vh");
+        } else {
+          // 페이지별 보정값 적용
+          const adjustment = pageAdjustments[pathname] || 1; // 기본값 1 (기타 페이지)
+          if (adjustment !== 1) {
+            totalHeight *= adjustment;
+          } else {
+            totalHeight *= 0.005 // 기타 페이지의 원본 로직
+          }
+          setContentHeight(totalHeight + extraSpace);
+        }
+      });
+    };
+
+    const resizeObserver = new ResizeObserver(() => {
+      if (window.updateHeightTimeout) {
+        clearTimeout(window.updateHeightTimeout);
+      }
+      window.updateHeightTimeout = setTimeout(updateContentHeight, 100);
+    });
+    
     if (outletRef.current) resizeObserver.observe(outletRef.current);
     if (footerRef.current) resizeObserver.observe(footerRef.current);
-    setTimeout(updateContentHeight, 50);
+    
+    setTimeout(updateContentHeight, 100);
+    window.addEventListener('load', updateContentHeight);
+    
     return () => {
-      if (outletRef.current) resizeObserver.unobserve(outletRef.current);
-      if (footerRef.current) resizeObserver.unobserve(footerRef.current);
+      if (window.updateHeightTimeout) clearTimeout(window.updateHeightTimeout);
+      window.removeEventListener('load', updateContentHeight);
+      resizeObserver.disconnect();
     };
   }, [isMobile, scale, pathname]);
 
-  // 모바일에서 지정 페이지 외부 스크롤 차단
+  // 모바일에서 모든 페이지 스크롤 차단
   useEffect(() => {
-    if (
-      isMobileNav &&
-      (pathname === "/" || pathname === "/2page" || pathname === "/3page" || pathname === "/4page")
-    ) {
+    if (isMobileNav) {
       document.body.style.overflow = "hidden";
       return () => {
         document.body.style.overflow = "";
       };
     }
-  }, [isMobileNav, pathname]);
+  }, [isMobileNav]);
 
   const OutletWrapper = () => (
     <div ref={outletRef}>

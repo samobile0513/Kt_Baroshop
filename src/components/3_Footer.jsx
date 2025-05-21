@@ -84,10 +84,7 @@ const Footer = () => {
 
   const getPaddingBottom = () => {
     const width = window.innerWidth;
-    if (
-      isMobile &&
-      (pathname === "/" || pathname === "/2page" || pathname === "/3page" || pathname === "/4page")
-    ) {
+    if (isMobile) {
       if (width <= 400) return "pb-[500px]";
       if (width <= 500) return "pb-[450px]";
       if (width <= 600) return "pb-[400px]";
