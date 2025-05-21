@@ -153,7 +153,17 @@ const Layout = () => {
         totalHeight += outletRef.current.getBoundingClientRect().height;
       if (footerRef.current)
         totalHeight += footerRef.current.getBoundingClientRect().height;
-      setContentHeight(totalHeight * 0.5); // scale 미적용 원본 높이
+      if (pathname === "/") {
+        setContentHeight(totalHeight * 0.135); // HomePage
+      } else if (pathname === "/2page") {
+        setContentHeight(totalHeight * 0.236); // 2page
+      } else if (pathname === "/3page") {
+        setContentHeight(totalHeight * 0.242); // 3page
+      } else if (pathname === "/4page") {
+        setContentHeight(totalHeight * 0.265); // 4page
+      } else {
+        setContentHeight(totalHeight + 100); // 원본 유지
+      }
     };
     const resizeObserver = new ResizeObserver(updateContentHeight);
     if (outletRef.current) resizeObserver.observe(outletRef.current);
@@ -164,16 +174,6 @@ const Layout = () => {
       if (footerRef.current) resizeObserver.unobserve(footerRef.current);
     };
   }, [isMobile, scale, pathname]);
-
-  // 모바일에서 외부 스크롤 차단
-  useEffect(() => {
-    if (isMobileNav) {
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = '';
-      };
-    }
-  }, [isMobileNav]);
 
   const OutletWrapper = () => (
     <div ref={outletRef}>
@@ -202,22 +202,24 @@ const Layout = () => {
 
         <div
           ref={scrollContainerRef}
-          className="flex-1 flex justify-center items-start overflow-x-hidden bg-white"
+          className="flex-1 flex justify-center items-start overflow-x-hidden overflow-y-auto bg-white"
           style={{
-            height: isMobileNav && contentHeight ? `${contentHeight}px` : "100vh",
-            maxHeight: isMobileNav && contentHeight ? `${contentHeight}px` : "none",
-            overflowY: isMobileNav ? "auto" : "auto",
+            minHeight: "100vh",
+            height: "100vh",
             ...scrollbarHideStyle,
             paddingTop: isLoading ? 0 : `${totalPadding + extraPadding}px`,
-            overscrollBehavior: isMobileNav ? "contain" : "auto",
+            overflowY: "auto",
           }}
         >
           <div
             ref={contentRef}
             className="flex justify-center w-full"
             style={{
-              height: isMobileNav && contentHeight ? `${contentHeight}px` : (isMobile && contentHeight ? `calc(${contentHeight}px * ${scale})` : "auto"),
-              minHeight: isMobileNav ? "auto" : "100vh",
+              height:
+                isMobile && contentHeight
+                  ? `calc(${contentHeight}px * ${scale})`
+                  : "auto",
+              minHeight: "100vh",
             }}
           >
             <div
@@ -243,7 +245,7 @@ const Layout = () => {
 
         <style jsx>{`
           div {
-            scroll-behavior: smooth;
+            scroll-behavior: auto;
           }
           div::-webkit-scrollbar {
             display: none;
@@ -261,11 +263,11 @@ const Layout = () => {
           left: 0,
           width: "100%",
           height: "100%",
-          pointerEvents: isMobileNav ? "none" : "auto",
+          pointerEvents: "none",
           zIndex: -1,
         }}
         onWheel={(e) => {
-          if (!isMobileNav && scrollContainerRef.current) {
+          if (scrollContainerRef.current) {
             scrollContainerRef.current.scrollTop += e.deltaY;
           }
         }}
