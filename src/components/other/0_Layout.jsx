@@ -108,7 +108,7 @@ const Layout = () => {
   useEffect(() => {
     const handleResize = () => {
       const screenWidth = Math.min(window.innerWidth, window.outerWidth || window.innerWidth);
-      const isMobileUA = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      const isMobileUA = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent); // ✅ 추가
       console.log('Screen width:', screenWidth, 'Is mobile UA:', isMobileUA);
 
       if (screenWidth <= 819 || isMobileUA) {
@@ -133,18 +133,18 @@ const Layout = () => {
   }, []);
 
   useEffect(() => {
-    const hasLoadedBefore = localStorage.getItem("hasLoadedBefore");
-    if (isMobile && !hasLoadedBefore) {
-      setIsLoading(true);
-      localStorage.setItem("hasLoadedBefore", "true");
-      const timer = setTimeout(() => {
-        setIsLoading(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    } else {
+  const hasLoadedBefore = localStorage.getItem("hasLoadedBefore");
+  if (isMobile && !hasLoadedBefore) {
+    setIsLoading(true);
+    localStorage.setItem("hasLoadedBefore", "true"); // ✅ 최초 1회 표시 후 저장
+    const timer = setTimeout(() => {
       setIsLoading(false);
-    }
-  }, [isMobile]);
+    }, 3000);
+    return () => clearTimeout(timer);
+  } else {
+    setIsLoading(false);
+  }
+}, [isMobile]);
 
   useEffect(() => {
     const updateContentHeight = () => {
@@ -153,7 +153,7 @@ const Layout = () => {
         totalHeight += outletRef.current.getBoundingClientRect().height;
       if (footerRef.current)
         totalHeight += footerRef.current.getBoundingClientRect().height;
-      setContentHeight(totalHeight * 0.1); // scale 미적용 원본 높이
+      setContentHeight(totalHeight + 100);
     };
     const resizeObserver = new ResizeObserver(updateContentHeight);
     if (outletRef.current) resizeObserver.observe(outletRef.current);
@@ -164,16 +164,6 @@ const Layout = () => {
       if (footerRef.current) resizeObserver.unobserve(footerRef.current);
     };
   }, [isMobile, scale, pathname]);
-
-  // 모바일에서 외부 스크롤 차단
-  useEffect(() => {
-    if (isMobileNav) {
-      document.body.style.overflow = 'hidden';
-      return () => {
-        document.body.style.overflow = '';
-      };
-    }
-  }, [isMobileNav]);
 
   const OutletWrapper = () => (
     <div ref={outletRef}>
@@ -202,22 +192,24 @@ const Layout = () => {
 
         <div
           ref={scrollContainerRef}
-          className="flex-1 flex justify-center items-start overflow-x-hidden bg-white"
+          className="flex-1 flex justify-center items-start overflow-x-hidden overflow-y-auto bg-white"
           style={{
-            height: isMobileNav && contentHeight ? `${contentHeight}px` : "100vh",
-            maxHeight: isMobileNav && contentHeight ? `${contentHeight}px` : "none",
-            overflowY: isMobileNav ? "auto" : "auto",
+            minHeight: "100vh",
+            height: "100vh",
             ...scrollbarHideStyle,
             paddingTop: isLoading ? 0 : `${totalPadding + extraPadding}px`,
-            overscrollBehavior: isMobileNav ? "contain" : "auto",
+            overflowY: "auto",
           }}
         >
           <div
             ref={contentRef}
             className="flex justify-center w-full"
             style={{
-              height: isMobileNav && contentHeight ? `${contentHeight}px` : (isMobile && contentHeight ? `calc(${contentHeight}px * ${scale})` : "auto"),
-              minHeight: isMobileNav ? "auto" : "100vh",
+              height:
+                isMobile && contentHeight
+                  ? `calc(${contentHeight}px * ${scale})`
+                  : "auto",
+              minHeight: "100vh",
             }}
           >
             <div
@@ -243,7 +235,7 @@ const Layout = () => {
 
         <style jsx>{`
           div {
-            scroll-behavior: smooth;
+            scroll-behavior: auto;
           }
           div::-webkit-scrollbar {
             display: none;
@@ -261,11 +253,11 @@ const Layout = () => {
           left: 0,
           width: "100%",
           height: "100%",
-          pointerEvents: isMobileNav ? "none" : "auto",
+          pointerEvents: "none",
           zIndex: -1,
         }}
         onWheel={(e) => {
-          if (!isMobileNav && scrollContainerRef.current) {
+          if (scrollContainerRef.current) {
             scrollContainerRef.current.scrollTop += e.deltaY;
           }
         }}
