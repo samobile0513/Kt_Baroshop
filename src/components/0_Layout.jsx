@@ -153,7 +153,7 @@ const Layout = () => {
         totalHeight += outletRef.current.getBoundingClientRect().height;
       if (footerRef.current)
         totalHeight += footerRef.current.getBoundingClientRect().height;
-      setContentHeight(totalHeight * 0.1); // scale 미적용 원본 높이
+      setContentHeight(totalHeight * 0.5); // scale 미적용 원본 높이
     };
     const resizeObserver = new ResizeObserver(updateContentHeight);
     if (outletRef.current) resizeObserver.observe(outletRef.current);
