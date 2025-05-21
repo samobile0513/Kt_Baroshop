@@ -154,7 +154,7 @@ const Layout = () => {
       if (footerRef.current)
         totalHeight += footerRef.current.getBoundingClientRect().height;
       if (pathname === "/") {
-        setContentHeight(totalHeight * 0.135); // HomePage
+        setContentHeight(totalHeight * 0.125); // HomePage
       } else if (pathname === "/2page") {
         setContentHeight(totalHeight * 0.236); // 2page
       } else if (pathname === "/3page") {
@@ -174,6 +174,19 @@ const Layout = () => {
       if (footerRef.current) resizeObserver.unobserve(footerRef.current);
     };
   }, [isMobile, scale, pathname]);
+
+  // 모바일에서 지정 페이지 외부 스크롤 차단
+  useEffect(() => {
+    if (
+      isMobileNav &&
+      (pathname === "/" || pathname === "/2page" || pathname === "/3page" || pathname === "/4page")
+    ) {
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }
+  }, [isMobileNav, pathname]);
 
   const OutletWrapper = () => (
     <div ref={outletRef}>

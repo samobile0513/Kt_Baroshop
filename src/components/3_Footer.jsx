@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { ScaleContext } from "./0_Layout";
 import ReactDOM from "react-dom";
-import { Link } from "react-router-dom";
-
+import { Link, useLocation } from "react-router-dom";
 
 const Footer = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -18,6 +17,7 @@ const Footer = () => {
   const [info2Text, setInfo2Text] = useState("");
   const [info3Text, setInfo3Text] = useState("");
   const [isMobile, setIsMobile] = useState(false);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     const handleResize = () => {
@@ -82,10 +82,25 @@ const Footer = () => {
     }
   }, [isPopupOpenInfo3]);
 
+  const getPaddingBottom = () => {
+    const width = window.innerWidth;
+    if (
+      isMobile &&
+      (pathname === "/" || pathname === "/2page" || pathname === "/3page" || pathname === "/4page")
+    ) {
+      if (width <= 400) return "pb-[500px]";
+      if (width <= 500) return "pb-[450px]";
+      if (width <= 600) return "pb-[400px]";
+      if (width <= 700) return "pb-[350px]";
+      if (width <= 819) return "pb-[300px]";
+    }
+    return "pb-[50px]"; // 기본값
+  };
+
   return (
     <>
       <div
-        className="w-full flex justify-center overflow-x-visible pt-[50px] pb-[50px]"
+        className={`w-full flex justify-center overflow-x-visible pt-[50px] ${getPaddingBottom()}`}
         style={{ minHeight: adjustedHeight, backgroundColor: "#3D3D3D" }}
       >
         <div
@@ -101,26 +116,26 @@ const Footer = () => {
         >
           <img src="/B_footer.svg" alt="footer-part1" />
           <div
-  className="hover:opacity-80 transition-opacity duration-300 cursor-pointer"
-  style={{ transform: "none !important", transition: "opacity 0.3s ease !important" }}
->
-  <Link
-  to="/callcenter"
-  className="hover:opacity-80 transition-opacity duration-300"
->
-  <img
-    src="/B_footer1.svg"
-    alt="공지사항"
-    className="cursor-pointer"
-    style={{
-      transform: "none",
-      margin: 0,
-      padding: 0,
-      display: "inline-block",
-    }}
-  />
-</Link>
-</div>
+            className="hover:opacity-80 transition-opacity duration-300 cursor-pointer"
+            style={{ transform: "none !important", transition: "opacity 0.3s ease !important" }}
+          >
+            <Link
+              to="/callcenter"
+              className="hover:opacity-80 transition-opacity duration-300"
+            >
+              <img
+                src="/B_footer1.svg"
+                alt="공지사항"
+                className="cursor-pointer"
+                style={{
+                  transform: "none",
+                  margin: 0,
+                  padding: 0,
+                  display: "inline-block",
+                }}
+              />
+            </Link>
+          </div>
 
           <div className="mt-[20px]" />
           <img src="/B_footer2.svg" alt="footer-part3" />
