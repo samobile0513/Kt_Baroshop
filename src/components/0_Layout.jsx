@@ -153,7 +153,7 @@ const Layout = () => {
         totalHeight += outletRef.current.getBoundingClientRect().height;
       if (footerRef.current)
         totalHeight += footerRef.current.getBoundingClientRect().height;
-      setContentHeight(totalHeight + 100);
+      setContentHeight(totalHeight);
     };
     const resizeObserver = new ResizeObserver(updateContentHeight);
     if (outletRef.current) resizeObserver.observe(outletRef.current);
@@ -205,8 +205,8 @@ const Layout = () => {
             ref={contentRef}
             className="flex justify-center w-full"
             style={{
-              height: isMobileNav ? "auto" : (isMobile && contentHeight ? `calc(${contentHeight}px * ${scale})` : "auto"),
-              minHeight: isMobileNav ? "100vh" : "100vh",
+              height: isMobileNav && contentHeight ? `${contentHeight}px` : (isMobile && contentHeight ? `calc(${contentHeight}px * ${scale})` : "auto"),
+              minHeight: isMobileNav ? "auto" : "100vh",
             }}
           >
             <div
