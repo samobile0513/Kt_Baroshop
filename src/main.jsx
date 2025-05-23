@@ -62,6 +62,7 @@ import Center4 from "./components/5p/4_Center";
 
 import "./index.css";
 
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Router>
