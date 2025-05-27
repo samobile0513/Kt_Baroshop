@@ -21,7 +21,7 @@ const StopBanner3 = () => {
           <img src="/stopm1.svg" alt="전화" className="w-[50px] h-[50px]" />
         </a>
         <a
-          href="http://pf.kakao.com/_DWxdsn"
+          href="http://pf.kakao.com/_BxmFin"
           target="_blank"
           rel="noopener noreferrer"
         >
