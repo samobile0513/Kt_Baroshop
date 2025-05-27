@@ -85,7 +85,7 @@ const StopBanner = () => {
               <img src="/stop4.svg" alt="상담신청" className="h-[48px]" />
             </button>
             <a
-              href="http://pf.kakao.com/_DWxdsn"
+              href="http://pf.kakao.com/_BxmFin"
               target="_blank"
               rel="noopener noreferrer"
             >
