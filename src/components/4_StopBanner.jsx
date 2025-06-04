@@ -40,11 +40,12 @@ const StopBanner = () => {
         ) : (
           <div className="flex flex-col items-center">
             <a
-              href="http://pf.kakao.com/_BxmFin"
+              href="http://pf.kakao.com/_DWxdsn"
               target="_blank"
               rel="noopener noreferrer"
               className="group mb-[20px]"
               onTouchStart={() => {}}
+              style={{ cursor: "pointer" }}
             >
               <img src="/stop_banner_1.svg" alt="배너1" />
             </a>
@@ -130,6 +131,12 @@ const StopBanner = () => {
       )}
 
       <style jsx>{`
+        .clickable {
+          cursor: pointer;
+        }
+        a.group {
+          cursor: pointer;
+        }
         @keyframes sparkle {
           0%,
           100% {
