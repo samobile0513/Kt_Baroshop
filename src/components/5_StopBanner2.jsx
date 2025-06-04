@@ -85,7 +85,7 @@ const StopBanner = () => {
               <img src="/stop4.svg" alt="상담신청" className="h-[48px]" />
             </button>
             <a
-              href="http://pf.kakao.com/_BxmFin"
+              href="http://pf.kakao.com/_DWxdsn"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -168,6 +168,20 @@ const StopBanner = () => {
           onClick={handleClosePopup}
         />
       )}
+      <style jsx>{`
+      .clickable {
+        cursor: pointer;
+      }
+      @keyframes sparkle {
+        0%,
+        100% {
+          box-shadow: 0 4px 15px rgba(255, 51, 51, 0.3);
+        }
+        50% {
+          box-shadow: 0 4px 25px rgba(255, 51, 51, 0.6);
+        }
+      }
+    `}</style>
 
       <style jsx>{`
         @keyframes sparkle {
