@@ -40,7 +40,7 @@ const StopBanner = () => {
         ) : (
           <div className="flex flex-col items-center">
             <a
-              href="http://pf.kakao.com/_DWxdsn"
+              href="http://pf.kakao.com/_BxmFin"
               target="_blank"
               rel="noopener noreferrer"
               className="group mb-[20px]"
