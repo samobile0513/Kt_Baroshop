@@ -6,6 +6,7 @@ const desktopImages = [
   { src: "/B6p/center2.png", alt: "3_1", link: "/center2" },
   { src: "/B6p/center3.png", alt: "3_1", link: "/center3" },
   { src: "/B6p/center4.png", alt: "3_1", link: "/center4" },
+  { src: "/B6p/center5.png", alt: "3_1", link: "/center5" },
 ];
 
 const mobileImages = [
@@ -13,6 +14,7 @@ const mobileImages = [
   { src: "/B6p/center2m.png", alt: "3_1", link: "/center2" },
   { src: "/B6p/center3m.png", alt: "3_1", link: "/center3" },
   { src: "/B6p/center4m.png", alt: "3_1", link: "/center4" },
+  { src: "/B6p/center5m.png", alt: "3_1", link: "/center5" },
 ];
 
 const Callcenter = () => {
