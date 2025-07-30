@@ -87,6 +87,7 @@ const Layout = () => {
   const [isMobileNav, setIsMobileNav] = useState(window.innerWidth <= 819);
   const [isLoading, setIsLoading] = useState(window.innerWidth <= 1200);
   const [contentHeight, setContentHeight] = useState(null);
+  const [showPopup, setShowPopup] = useState(true); // 추가된 소스
   const { pathname } = useLocation();
   const scrollContainerRef = useRef();
   const contentRef = useRef();
@@ -98,7 +99,7 @@ const Layout = () => {
   const totalPadding = isMobileNav ? headerHeight + navHeight + 11 : 108;
   const extraPadding =
     !isMobileNav && window.innerWidth > 819 && window.innerWidth <= 1920 ? 20 : 0;
-
+ 
   useEffect(() => {
     if (window.__isModalOpen) return;
     if (pathname.includes("surveyform")) return;
@@ -233,6 +234,48 @@ const Layout = () => {
           </>
         )}
 
+           {showPopup && (
+          <div
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "300px",
+              height: "300px",
+              backgroundColor: "white",
+              border: "2px solid #ccc",
+              borderRadius: "16px",
+              zIndex: 9999,
+              boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "20px",
+            }}
+          >
+            <h2 style={{ marginBottom: "10px", fontSize: "18px" }}>🎉 이벤트 안내</h2>
+            <p style={{ textAlign: "center", fontSize: "14px" }}>
+              지금 가입하면 혜택이 팡팡!
+            </p>
+            <button
+              onClick={() => setShowPopup(false)}
+              style={{
+                marginTop: "20px",
+                padding: "10px 20px",
+                backgroundColor: "#007bff",
+                color: "white",
+                border: "none",
+                borderRadius: "8px",
+                cursor: "pointer",
+              }}
+            >
+              닫기
+            </button>
+          </div>
+        )}
+        
         <style jsx>{`
           div {
             scroll-behavior: auto;
