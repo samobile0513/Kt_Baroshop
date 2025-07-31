@@ -63,6 +63,15 @@ const Callcenter = () => {
       >
         {images.map((item, index) => (
           <React.Fragment key={index}>
+            {(item.src.includes("center5") || item.src.includes("center5m")) ? (
+      // ✅ center5 이미지일 경우: 새 창에 이미지 열기
+      <a href={item.src} target="www.naver.com" rel="noopener noreferrer">
+        <img
+          src={item.src}
+          alt={item.alt}
+          className={isMobile ? "cursor-pointer" : "cursor-pointer w-auto h-auto"}
+        />
+      </a>
             {item.isMain ? (
               <div className="w-full overflow-hidden">
                 <Link to={item.link}>
