@@ -40,9 +40,8 @@ const CharacterSection = () => {
           transformOrigin: "top center",
         }}
       >
-        <a href="https://www.naver.com"  target="_blank">
+        
         <img src="/B5p/s5.png" alt="5_1" />
-          </a>
         <div className="mt-[50px]" />
         <Link to="/3_Surveyform2">
           <img src="/B1p/b_74.svg" alt="5_2" className="cursor-pointer" />
